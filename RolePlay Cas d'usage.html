@@ -1,0 +1,757 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>RolePlay Cas d'usage</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: reprend l'interface de la plateforme 360Learning. Rail étroit à gauche, barre du haut avec fil d'Ariane et recherche, pastilles de filtre, bandeau d'accueil, quatre tuiles de cas d'usage, puis une rangée de cartes par secteur. La fiche s'ouvre dans un panneau latéral. */
+:root {
+  --bg: #ffffff;
+  --fg: #18191d;
+  --muted: #5f6577;
+  --line: #d9dce4;
+  --line-soft: #eceef3;
+  --primary: #1f55d6;
+  --primary-fg: #ffffff;
+  --link: #1f55d6;
+  --tint: #e8eeff;
+  --rail-tile: #e3f3e8;
+  --rail-tile-fg: #1d6b43;
+  --circle: #eceef3;
+  --prompt-bg: #f4f5f9;
+  --var-bg: #fff1c2;
+  --var-fg: #6a4a00;
+  --fill-bg: #e1e9ff;
+  --fill-fg: #1a4fc4;
+  --ok: #36b37e;
+  --ok-fg: #0b2e1f;
+  --proto-bg: #fdf3d0;
+  --proto-fg: #7a5b00;
+  --shadow: 0 8px 24px rgba(24, 25, 29, .12);
+  --a0: #e8eeff; --b0: #c9d8fb; --cb0: #e1e9ff; --cf0: #1a4fc4;
+  --a1: #f3e9fb; --b1: #dcc9f2; --cb1: #efe2fa; --cf1: #7a3fb0;
+  --a2: #e6f4ea; --b2: #bfdcc8; --cb2: #e2f3e8; --cf2: #1f7a4d;
+  --a3: #fdeee3; --b3: #f6cdb8; --cb3: #ffebdb; --cf3: #a8501a;
+  --card-img: url(data:image/jpeg;base64,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);
+  --mosaic-green: #0a4f47;
+  --mosaic-img: url(data:image/webp;base64,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);
+  --font: "Plus Jakarta Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101114;
+    --fg: #f3f3f9;
+    --muted: #a3a9ba;
+    --line: #30333b;
+    --line-soft: #23252b;
+    --primary: #2f63e0;
+    --link: #8db0ff;
+    --tint: #1c2640;
+    --rail-tile: #17301f;
+    --rail-tile-fg: #7fd6a4;
+    --circle: #23252b;
+    --prompt-bg: #1b1c21;
+    --var-bg: #4a3a0a;
+    --var-fg: #ffe08a;
+    --fill-bg: #1d3566;
+    --fill-fg: #bcd5ff;
+    --proto-bg: #3a3010;
+    --proto-fg: #ffd978;
+    --shadow: 0 8px 24px rgba(0, 0, 0, .5);
+    --a0: #1b2646; --b0: #26376b; --cb0: #22305a; --cf0: #a9c3ff;
+    --a1: #2a1f3d; --b1: #43305f; --cb1: #35264d; --cf1: #d4b4f5;
+    --a2: #19302a; --b2: #244a3b; --cb2: #1e3a2f; --cf2: #8fd9b0;
+    --a3: #3a2518; --b3: #5a3a24; --cb3: #4a2f1c; --cf3: #f5b88c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #101114;
+  --fg: #f3f3f9;
+  --muted: #a3a9ba;
+  --line: #30333b;
+  --line-soft: #23252b;
+  --primary: #2f63e0;
+  --link: #8db0ff;
+  --tint: #1c2640;
+  --rail-tile: #17301f;
+  --rail-tile-fg: #7fd6a4;
+  --circle: #23252b;
+  --prompt-bg: #1b1c21;
+  --var-bg: #4a3a0a;
+  --var-fg: #ffe08a;
+  --fill-bg: #1d3566;
+  --fill-fg: #bcd5ff;
+  --proto-bg: #3a3010;
+  --proto-fg: #ffd978;
+  --shadow: 0 8px 24px rgba(0, 0, 0, .5);
+  --a0: #1b2646; --b0: #26376b; --cb0: #22305a; --cf0: #a9c3ff;
+  --a1: #2a1f3d; --b1: #43305f; --cb1: #35264d; --cf1: #d4b4f5;
+  --a2: #19302a; --b2: #244a3b; --cb2: #1e3a2f; --cf2: #8fd9b0;
+  --a3: #3a2518; --b3: #5a3a24; --cb3: #4a2f1c; --cf3: #f5b88c;
+  color-scheme: dark;
+}
+
+[hidden] { display: none !important; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 16px; line-height: 1.5; margin: 0; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); background: var(--bg); z-index: 60; }
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+h1, h2, h3, p, ul, ol, dl { margin: 0; }
+svg { display: block; flex: none; }
+.g { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.app { display: grid; grid-template-columns: minmax(0, 1fr); min-height: 100vh; }
+.main { min-width: 0; }
+
+/* Rail */
+.rail { position: sticky; top: 0; align-self: start; height: 100vh; border-right: 1px solid var(--line-soft); display: flex; flex-direction: column; align-items: center; gap: 12px; padding: calc(env(safe-area-inset-top, 0px) + 16px) 0 16px; overflow-y: auto; }
+.logo { width: 52px; height: 52px; border-radius: 12px; background: var(--rail-tile); color: var(--rail-tile-fg); display: grid; place-items: center; font-weight: 700; font-size: 15px; letter-spacing: -0.02em; }
+.rail-home { width: 52px; height: 52px; border-radius: 12px; border: 0; background: var(--tint); color: var(--primary); display: grid; place-items: center; }
+.rail hr { width: 52px; border: 0; border-top: 1px solid var(--line-soft); margin: 4px 0; }
+.rail-list { display: flex; flex-direction: column; gap: 10px; }
+.rail-btn { width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--circle); color: var(--muted); font-weight: 700; font-size: 13px; }
+.rail-btn:hover { color: var(--fg); }
+.rail-btn[aria-pressed="true"] { background: var(--primary); color: var(--primary-fg); }
+
+/* Barre du haut */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); border-bottom: 1px solid var(--line-soft); }
+.topbar-in { display: flex; align-items: center; gap: 20px; padding-block: 12px; flex-wrap: wrap; }
+.crumb { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 1.1rem; min-width: 0; }
+.crumb b { color: var(--fg); font-weight: 500; }
+.search { flex: 1 1 280px; min-width: 0; display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 8px; padding: 0 14px; height: 48px; color: var(--muted); }
+.search input { flex: 1; min-width: 0; height: 100%; border: 0; background: transparent; outline: 0; font-size: 1rem; }
+.search:focus-within { outline: 3px solid var(--primary); outline-offset: 1px; }
+.search input::placeholder { color: var(--muted); }
+.company { flex: 0 1 260px; min-width: 0; display: flex; align-items: center; gap: 10px; border: 1px solid var(--primary); border-radius: 8px; padding: 0 14px; height: 48px; color: var(--primary); }
+.company input { flex: 1; min-width: 0; height: 100%; border: 0; background: transparent; outline: 0; font-size: 1rem; font-weight: 500; color: var(--fg); }
+.company input::placeholder { color: var(--muted); font-weight: 400; }
+.company:focus-within { outline: 3px solid var(--primary); outline-offset: 1px; }
+
+/* Contenu */
+.content { max-width: 1480px; margin: 0 auto; padding-block: 16px 64px; display: flex; flex-direction: column; gap: 28px; }
+.tagrow { display: flex; justify-content: flex-end; }
+.proto { background: var(--proto-bg); color: var(--proto-fg); border-radius: 999px; padding: 6px 16px; font-size: 14px; font-weight: 500; }
+.pills { display: flex; flex-wrap: wrap; gap: 12px; }
+.pill { background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 9px 20px; font-size: 1rem; }
+.pill:hover { border-color: var(--primary); }
+.pill[aria-pressed="true"] { background: var(--tint); border-color: var(--primary); color: var(--link); font-weight: 600; }
+
+/* Bandeau */
+.hero { position: relative; border-radius: 16px; overflow: hidden; min-height: 300px; display: flex; align-items: flex-start; color: #18191d; }
+.hero.narrow { min-height: 360px; }
+.hero.narrow .hero-in { max-width: min(480px, calc(100% - 40px)); }
+.hero-bg { position: absolute; inset: 0; }
+.hero-in { position: relative; margin: 20px; padding: 18px 22px; background: rgba(255, 255, 255, .95); border-radius: 12px; display: flex; flex-direction: column; gap: 6px; max-width: min(360px, calc(100% - 40px)); }
+.hero h1 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1.2; text-wrap: balance; }
+.hero p { font-size: .95rem; line-height: 1.5; color: #5f6577; }
+.mosaic { display: flex; flex-direction: column; gap: 20px; }
+.hero-bg, .tile { background-color: var(--mosaic-green); background-image: var(--mosaic-img); background-repeat: no-repeat; }
+
+/* Tuiles */
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+.tile { position: relative; text-align: left; border: 0; border-radius: 12px; min-height: 170px; padding: 14px; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; overflow: hidden; }
+.lab { background: rgba(255, 255, 255, .95); color: #18191d; border-radius: 10px; padding: 8px 12px; display: flex; flex-direction: column; text-align: left; }
+.lab b { font-weight: 500; font-size: 1.05rem; letter-spacing: -0.01em; }
+.lab small { font-size: 13px; color: #5f6577; }
+.tile[aria-pressed="true"] { outline: 4px solid var(--primary); outline-offset: 2px; }
+
+/* Sections */
+.sections { display: flex; flex-direction: column; gap: 36px; }
+.sec-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+.sec-head h2 { font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 500; letter-spacing: -0.03em; }
+.count { min-width: 32px; height: 32px; border: 1px solid var(--line); border-radius: 16px; display: grid; place-items: center; font-size: 14px; color: var(--muted); padding: 0 8px; font-variant-numeric: tabular-nums; }
+.seeall { margin-left: auto; background: transparent; border: 0; color: var(--link); font-weight: 500; font-size: 1.05rem; padding: 4px 0; }
+.seeall:hover { text-decoration: underline; }
+.row-scroll { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 12px; scroll-snap-type: x proximity; }
+.row-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.row-scroll .card { flex: 0 0 min(300px, 78vw); scroll-snap-align: start; }
+
+/* Cartes */
+.card { text-align: left; background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 0; overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
+.card:hover { box-shadow: var(--shadow); }
+.card-top { display: block; height: 120px; flex: none; background-color: #fdf3e6; background-image: var(--card-img); background-repeat: no-repeat; }
+.card-body { padding: 18px 20px 0; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.card h3 { font-size: 1.15rem; font-weight: 500; line-height: 1.3; letter-spacing: -0.01em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.6em; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { background: var(--line-soft); color: var(--muted); border-radius: 999px; padding: 4px 12px; font-size: 14px; }
+.card-foot { display: flex; align-items: center; gap: 10px; padding: 16px 20px 18px; color: var(--muted); font-size: 14px; }
+.av { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-weight: 600; font-size: 13px; flex: none; }
+.av-name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.q { display: flex; align-items: center; gap: 6px; flex: none; }
+.t0 .tc, .t0 .av { background: var(--cb0); color: var(--cf0); }
+.t1 .tc, .t1 .av { background: var(--cb1); color: var(--cf1); }
+.t2 .tc, .t2 .av { background: var(--cb2); color: var(--cf2); }
+.t3 .tc, .t3 .av { background: var(--cb3); color: var(--cf3); }
+.empty { padding: 48px 0; color: var(--muted); font-size: 1.1rem; }
+
+/* Panneau */
+.scrim { position: fixed; inset: 0; background: rgba(16, 17, 20, .45); z-index: 70; }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(640px, 100%); background: var(--bg); z-index: 80; display: flex; flex-direction: column; box-shadow: var(--shadow); }
+.drawer-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: calc(env(safe-area-inset-top, 0px) + 14px) max(20px, env(safe-area-inset-right, 0px)) 14px 24px; border-bottom: 1px solid var(--line-soft); }
+.drawer-head .chips { min-width: 0; }
+.close { width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--circle); display: grid; place-items: center; flex: none; }
+.drawer-body { flex: 1; overflow-y: auto; padding: 24px max(20px, env(safe-area-inset-right, 0px)) 24px 24px; display: flex; flex-direction: column; gap: 24px; }
+.drawer h1 { font-size: clamp(1.3rem, 2.4vw, 1.6rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1.15; text-wrap: balance; }
+.scenario { font-size: .95rem; line-height: 1.6; }
+.facts { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 10px 16px; padding-block: 16px; border-block: 1px solid var(--line-soft); }
+.facts dt { font-weight: 600; font-size: 13px; }
+.facts dd { margin: 0; color: var(--muted); font-size: .9rem; }
+.dsec h2 { font-size: 1.05rem; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 4px; }
+.dsec > p { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+.lines { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.lines li { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: .92rem; line-height: 1.55; }
+.lines b { display: block; font-size: 12px; font-weight: 600; color: var(--link); margin-bottom: 2px; }
+.prompt-box { background: var(--prompt-bg); border-radius: 12px; padding: 16px; }
+.prompt { font-family: var(--mono); font-size: .8rem; line-height: 1.7; overflow-wrap: anywhere; }
+.v { background: var(--var-bg); color: var(--var-fg); border-radius: 3px; padding: 0 3px; }
+.f { background: var(--fill-bg); color: var(--fill-fg); border-radius: 3px; padding: 0 3px; }
+.drawer-foot { padding: 14px max(20px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 14px) 24px; border-top: 1px solid var(--line-soft); }
+.copy { width: 100%; background: var(--primary); color: var(--primary-fg); border: 0; border-radius: 8px; height: 44px; font-weight: 600; font-size: .95rem; }
+.copy:hover { filter: brightness(1.1); }
+.copy.done { background: var(--ok); color: var(--ok-fg); }
+
+@media (max-width: 1100px) {
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .rail { display: none; }
+  .crumb { flex: 1 1 100%; }
+  .company { flex: 1 1 100%; }
+  .pills { margin-top: 0; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; }
+  .pill { white-space: nowrap; }
+  .hero { min-height: 200px; }
+  .facts { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .facts dd { margin-bottom: 10px; }
+}
+@media (max-width: 520px) {
+  .hero, .hero.narrow { display: block; min-height: 0; overflow: visible; border-radius: 0; }
+  .hero-bg { position: relative; inset: auto; height: 190px; border-radius: 16px; }
+  .hero-in, .hero.narrow .hero-in { margin: 12px 0 0; max-width: none; background: #fff; border: 1px solid var(--line-soft); }
+  .mosaic { gap: 12px; }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .tile { min-height: 110px; padding: 10px; }
+  .lab { padding: 6px 10px; }
+  .lab b { font-size: .95rem; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .card, .pill, .rail-btn, .copy { transition: box-shadow .15s, background-color .15s, filter .15s; }
+  .drawer { animation: slide .2s ease-out; }
+  @keyframes slide { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+}
+</style>
+
+<div class="app">
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-in g">
+        <div class="crumb">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h5v-5h3v5h5V10"/></svg>
+          <span aria-hidden="true">/</span><b>Cas d'usage</b>
+        </div>
+        <label class="search">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
+          <span class="sr">Rechercher</span>
+          <input id="q" type="search" placeholder="Rechercher" autocomplete="off">
+        </label>
+        <label class="company">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V5.5L13 3v17"/><path d="M13 9h6v11"/><path d="M8.5 8.5h1M8.5 12h1M8.5 15.5h1M16 13h.01M16 16.5h.01"/><path d="M3.5 20h17"/></svg>
+          <span class="sr">Entreprise cliente</span>
+          <input id="v-entreprise" type="text" placeholder="Entreprise cliente" autocomplete="off">
+        </label>
+      </div>
+    </header>
+
+    <div class="content g">
+      <div class="pills" id="pills" role="group" aria-label="Secteur"></div>
+
+      <div class="mosaic" id="mosaic">
+      <section class="hero">
+        <div class="hero-bg" id="hero-bg"></div>
+        <div class="hero-in">
+          <h1>Former vos collaborateurs par la pratique</h1>
+          <p>60 cas d'usage à jouer face à un avatar. Ouvrez un cas, lisez les trois phrases pour jouer la scène, puis copiez le prompt dans RolePlay.</p>
+        </div>
+      </section>
+
+      <div class="tiles" id="tiles" role="group" aria-label="Cas d'usage"></div>
+      </div>
+      <div class="sections" id="sections"></div>
+    </div>
+  </div>
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Fiche du cas" hidden></aside>
+
+<script>
+var SECT = { S: "Services", H: "Santé", I: "Industrie", R: "Retail", B: "Banque & finance", F: "Formation" };
+var SKILLS = {
+  "Management": "Posture managériale, écoute active, cadre clair",
+  "Relation client": "Écoute, empathie, reformulation, gestion du désaccord",
+  "Conformité & sécurité": "Respect des procédures, ton factuel, fermeté bienveillante",
+  "Communication interne": "Clarté du message, argumentation, adaptation à l'interlocuteur"
+};
+var STEM = "Génère une mise en situation orale où ";
+/* [secteur, cas d'usage, titre, apprenant, situation, scénario, avatar] */
+var ROWS = [
+  /* SERVICES */
+  ["S", "Management", "Recadrer un retard récurrent", "un manager d'équipe", "mener un entretien de recadrage avec un collaborateur dont les retards se répètent depuis un mois",
+    "Le manager doit poser un cadre clair sans humilier, comprendre ce qui bloque et obtenir un engagement concret.",
+    "Collaborateur sur la défensive, qui minimise d'abord puis explique ce qui l'empêche d'être à l'heure."],
+  ["S", "Management", "Annoncer une réorganisation", "un manager", "annoncer à son équipe une réorganisation qui modifie le périmètre de chacun",
+    "L'annonce suscite des inquiétudes et des questions. Le manager doit rester clair, honnête sur ce qu'il sait et ne sait pas.",
+    "Collaborateur inquiet, qui pose des questions directes sur son poste et sa charge de travail."],
+  ["S", "Management", "Déléguer à un junior qui doute", "un manager", "déléguer une mission importante à un collaborateur junior qui doute de ses capacités",
+    "Le manager doit rassurer, cadrer l'autonomie accordée et définir les points de suivi sans faire à la place.",
+    "Collaborateur junior motivé mais hésitant, qui cherche à être rassuré."],
+  ["S", "Relation client", "Client mécontent d'un retard de livrable", "un chef de projet", "répondre à un client mécontent d'un retard de livrable et rétablir la confiance",
+    "Le client est agacé et menace d'escalader. Le chef de projet doit accueillir la colère, expliquer et proposer un plan.",
+    "Client exigeant, irrité, qui coupe la parole tant qu'il ne se sent pas entendu."],
+  ["S", "Relation client", "Reformuler un besoin client flou", "un consultant", "recueillir le besoin d'un client qui exprime ses attentes de façon confuse",
+    "Le client sait ce qui ne va pas mais pas ce qu'il veut. Le consultant doit questionner et reformuler pour clarifier.",
+    "Client bien intentionné, qui change d'avis en cours d'échange et mélange besoins et solutions."],
+  ["S", "Relation client", "Refuser une demande hors périmètre", "un chef de projet", "refuser une demande hors périmètre d'un client sans abîmer la relation",
+    "Le client demande un ajout gratuit. Le chef de projet doit dire non, proposer une alternative et préserver la confiance.",
+    "Client aimable mais insistant, qui joue la carte de la relation de long terme."],
+  ["S", "Conformité & sécurité", "Signaler un conflit d'intérêts", "un collaborateur", "alerter son responsable d'un possible conflit d'intérêts concernant un fournisseur",
+    "Le collaborateur a repéré un lien entre un fournisseur et un collègue. Il doit alerter factuellement, sans accuser.",
+    "Responsable à l'écoute mais prudent, qui demande des faits précis."],
+  ["S", "Conformité & sécurité", "Rappeler les règles de sécurité des données", "un collaborateur", "rappeler à un collègue les règles de sécurité des données après qu'il a partagé un document sensible par erreur",
+    "Le collègue a envoyé un fichier à la mauvaise personne. Il faut en parler sans le culpabiliser et définir les bons réflexes.",
+    "Collègue gêné, qui minimise l'incident et cherche à clore le sujet rapidement."],
+  ["S", "Communication interne", "Donner un feedback constructif", "un manager", "donner un feedback constructif à un collaborateur après une présentation client décevante",
+    "Le manager doit nommer les points forts, les points à améliorer et co-construire des actions.",
+    "Collaborateur sensible, qui se justifie dès qu'on évoque ses erreurs."],
+  ["S", "Communication interne", "Négocier des ressources entre services", "un chef de projet", "négocier avec le responsable d'un autre service le prêt d'un expert pour un projet urgent",
+    "Les deux services ont leurs priorités. Le chef de projet doit argumenter et trouver un compromis réaliste.",
+    "Responsable d'un autre service, collaboratif mais protecteur de ses ressources."],
+
+  /* SANTÉ */
+  ["H", "Management", "Conflit entre deux soignants", "un cadre de santé", "gérer un conflit entre deux soignants qui ne se parlent plus",
+    "La tension pèse sur le service. Le cadre doit entendre les deux versions, rétablir un dialogue et fixer des règles de coopération.",
+    "Soignant rancunier, convaincu d'avoir raison, qui accuse l'autre de ne pas faire sa part."],
+  ["H", "Management", "Annoncer un changement de planning", "un cadre de santé", "annoncer à son équipe un changement de planning qui touche les week-ends",
+    "Le nouveau planning est contraint par un manque d'effectif. Le cadre doit expliquer les raisons, écouter les objections et rester ferme.",
+    "Soignante fatiguée, qui conteste l'équité de la répartition."],
+  ["H", "Management", "Accompagner un nouvel arrivant en difficulté", "un cadre de santé", "accompagner un nouvel arrivant en difficulté pendant sa période d'intégration",
+    "Le nouvel arrivant se sent dépassé et n'ose pas demander de l'aide. Le cadre doit l'amener à exprimer ses besoins.",
+    "Nouvel arrivant discret, qui dit que tout va bien alors que ce n'est pas le cas."],
+  ["H", "Relation client", "Famille inquiète du suivi d'un résident", "un soignant", "répondre à la famille d'un résident inquiète du suivi de son proche",
+    "La famille craint un manque d'attention. Le soignant doit rassurer avec des faits, sans promettre l'impossible.",
+    "Proche d'un résident, anxieux, qui pose beaucoup de questions et doute de la réponse."],
+  ["H", "Relation client", "Patient mécontent de l'attente", "un agent d'accueil", "gérer un patient mécontent d'une longue attente aux urgences",
+    "L'attente dépasse ce qui était annoncé. L'agent doit informer, empathiser et rester calme face à l'énervement.",
+    "Patient irrité, qui se sent ignoré et hausse le ton."],
+  ["H", "Relation client", "Expliquer un report d'intervention", "un infirmier", "expliquer à un patient pourquoi son intervention est reportée",
+    "Le report est dû à un cas urgent. L'infirmier doit annoncer la nouvelle avec clarté et proposer la suite.",
+    "Patient anxieux, qui s'était préparé et le prend mal."],
+  ["H", "Conformité & sécurité", "Signaler un écart de procédure", "un collaborateur de laboratoire", "signaler à son responsable un écart de procédure qualité qu'il vient de constater",
+    "L'écart peut avoir un impact sur la traçabilité. Le collaborateur doit rapporter les faits précisément et proposer une action.",
+    "Responsable qualité rigoureux, qui demande dates, lots et circonstances."],
+  ["H", "Conformité & sécurité", "Rappeler la confidentialité des données patient", "un soignant", "rappeler à un collègue les règles de confidentialité après qu'il a évoqué un patient dans un lieu public",
+    "Le collègue a parlé d'un patient dans un couloir. Il faut le lui dire sans le blesser et rappeler les règles.",
+    "Collègue expérimenté, qui juge la remarque excessive et se justifie."],
+  ["H", "Communication interne", "Transmission de nuit", "un infirmier", "transmettre à l'équipe de nuit les informations clés sur un patient sans rien omettre",
+    "La transmission doit être courte et complète. L'infirmier doit hiérarchiser les informations et vérifier la compréhension.",
+    "Infirmier de nuit attentif, qui pose des questions précises pour combler les manques."],
+  ["H", "Communication interne", "Retour à un stagiaire sur un geste", "un tuteur de stage", "donner un retour constructif à un stagiaire sur un geste technique mal réalisé",
+    "Le stagiaire a commis une erreur sans conséquence grave. Le tuteur doit corriger tout en maintenant la confiance.",
+    "Stagiaire impressionné, qui s'excuse beaucoup et peine à poser ses questions."],
+
+  /* INDUSTRIE */
+  ["I", "Management", "Annoncer un changement de poste ou de cadence", "un chef d'équipe", "annoncer à un opérateur un changement de poste ou de cadence en production",
+    "Le changement répond à un besoin de la ligne. Le chef d'équipe doit expliquer, écouter et obtenir l'adhésion.",
+    "Opérateur expérimenté, attaché à son poste, qui évoque l'ancienneté et la pénibilité."],
+  ["I", "Management", "Conflit entre deux équipes de production", "un responsable de production", "arbitrer un conflit entre deux équipes qui se reprochent des problèmes de passation de poste",
+    "Chaque équipe accuse l'autre de laisser des défauts. Le responsable doit rétablir les faits et définir un standard commun.",
+    "Chef d'équipe défensif, qui renvoie les torts à l'équipe suivante."],
+  ["I", "Management", "Remotiver l'équipe après un incident qualité", "un responsable de production", "remotiver son équipe après un incident qualité qui a entraîné un rebut important",
+    "L'équipe se sent blâmée. Le responsable doit analyser sans chercher de coupable et redonner confiance.",
+    "Opérateur démotivé, qui pense que « de toute façon, on est toujours montrés du doigt »."],
+  ["I", "Relation client", "Lot non conforme chez un client industriel", "un responsable qualité", "répondre à un client industriel qui a reçu un lot non conforme",
+    "Le client menace de suspendre ses commandes. Le responsable doit reconnaître le problème, présenter un plan de correction et rassurer.",
+    "Client industriel exigeant, qui demande une analyse des causes sous 48 heures."],
+  ["I", "Relation client", "Machine à l'arrêt chez le client", "un technicien SAV", "gérer un client dont la machine est à l'arrêt et qui attend une intervention",
+    "Chaque heure d'arrêt coûte cher au client. Le technicien doit informer, prioriser et rester professionnel sous pression.",
+    "Client stressé, qui demande une date précise d'intervention."],
+  ["I", "Relation client", "Retard de livraison chez un grand compte", "un assistant ADV", "expliquer un retard de livraison à un client grand compte et proposer une solution",
+    "Le retard menace la production du client. L'assistant doit informer avec transparence et proposer une alternative.",
+    "Acheteur du client, ferme, qui cherche à obtenir un geste commercial."],
+  ["I", "Conformité & sécurité", "Opérateur sans équipement de protection", "un chef d'équipe", "recadrer un opérateur qui ne porte pas ses équipements de protection individuelle",
+    "L'opérateur dit que l'équipement le gêne. Le chef d'équipe doit rappeler la règle avec fermeté et comprendre l'obstacle.",
+    "Opérateur chevronné, qui juge les règles inutiles dans son cas."],
+  ["I", "Conformité & sécurité", "Débriefer un presque accident", "un animateur sécurité", "faire un retour sur un presque accident avec l'opérateur concerné sans chercher de coupable",
+    "L'objectif est d'apprendre. L'animateur doit faire raconter les faits et identifier les causes avec l'opérateur.",
+    "Opérateur mal à l'aise, qui craint des sanctions et minimise ce qui s'est passé."],
+  ["I", "Communication interne", "Passation de poste entre équipes", "un chef d'équipe", "transmettre les consignes de fin de poste à l'équipe suivante en signalant les points d'attention",
+    "La passation doit être claire et courte. Le chef d'équipe doit prioriser et s'assurer que tout est compris.",
+    "Chef d'équipe suivant, pressé, qui interrompt pour obtenir l'essentiel."],
+  ["I", "Communication interne", "Convaincre la maintenance de traiter une panne récurrente", "un opérateur de ligne", "convaincre le responsable maintenance de traiter une panne récurrente en priorité",
+    "La panne ralentit la ligne mais la maintenance a d'autres urgences. L'opérateur doit argumenter avec des faits.",
+    "Responsable maintenance débordé, qui demande l'impact chiffré avant de s'engager."],
+
+  /* RETAIL */
+  ["R", "Management", "Recadrer l'attitude d'un vendeur avec les clients", "un manager de rayon", "recadrer un vendeur dont l'attitude avec les clients est jugée froide",
+    "Des clients se sont plaints. Le manager doit donner des exemples précis et aider le vendeur à changer.",
+    "Vendeur expérimenté, qui se juge efficace et conteste la remarque."],
+  ["R", "Management", "Annoncer des horaires modifiés pour les soldes", "un directeur de magasin", "annoncer à son équipe des horaires modifiés pendant la période des soldes",
+    "La période est chargée et les contraintes importantes. Le directeur doit expliquer, écouter et rester ferme.",
+    "Vendeuse à temps partiel, qui a des contraintes personnelles et demande des aménagements."],
+  ["R", "Management", "Accompagner une recrue qui n'ose pas aborder les clients", "un manager de rayon", "accompagner une nouvelle recrue qui hésite à aborder les clients",
+    "La recrue manque de confiance. Le manager doit l'aider à identifier le frein et à s'entraîner.",
+    "Nouvelle recrue timide, qui dit qu'elle ne veut pas déranger les clients."],
+  ["R", "Relation client", "Remboursement hors délai", "un vendeur", "gérer une demande de remboursement hors délai tout en gardant le client satisfait",
+    "Le client veut un remboursement alors que le délai est dépassé. Le vendeur doit appliquer la règle et proposer une alternative.",
+    "Client déterminé, qui invoque sa fidélité à l'enseigne."],
+  ["R", "Relation client", "Conseiller un client indécis", "un conseiller de vente", "conseiller un client indécis et l'aider à choisir sans le brusquer",
+    "Le client hésite entre plusieurs produits. Le conseiller doit comprendre son besoin et conclure.",
+    "Client prudent, qui compare les prix et pose beaucoup de questions."],
+  ["R", "Relation client", "Client énervé par la file d'attente en caisse", "un hôte de caisse", "désamorcer un client énervé par une longue file d'attente en caisse",
+    "Le client hausse le ton devant les autres clients. L'hôte doit rester calme et trouver une solution rapide.",
+    "Client pressé, irrité, qui menace de quitter son panier."],
+  ["R", "Conformité & sécurité", "Soupçon de vol à l'étalage", "un employé de magasin", "réagir à un soupçon de vol à l'étalage en respectant la procédure",
+    "L'employé doit suivre la procédure sans accuser à tort. Il doit rester courtois et appeler le bon interlocuteur.",
+    "Client surpris, vexé, qui nie toute intention et s'agace."],
+  ["R", "Conformité & sécurité", "Écart de caisse", "un manager", "reprendre avec un hôte de caisse un écart de caisse répété",
+    "L'écart se reproduit. Le manager doit factualiser, comprendre les causes et rappeler les règles.",
+    "Hôte de caisse inquiet, qui craint d'être soupçonné de malhonnêteté."],
+  ["R", "Communication interne", "Animer le brief d'ouverture", "un manager de rayon", "animer en trois minutes le brief d'équipe d'ouverture avec les priorités du jour",
+    "Le brief doit être court, mobilisateur et clair. Le manager doit hiérarchiser les messages.",
+    "Équipe pressée, qui interrompt avec des questions pratiques."],
+  ["R", "Communication interne", "Remonter un problème d'approvisionnement au siège", "un directeur de magasin", "remonter au siège un dysfonctionnement d'approvisionnement qui pénalise les ventes",
+    "Les ruptures se répètent. Le directeur doit argumenter avec des faits et obtenir une action.",
+    "Responsable supply chain du siège, occupé, qui demande des données avant de réagir."],
+
+  /* BANQUE & FINANCE */
+  ["B", "Management", "Entretien avec un conseiller sous ses objectifs", "un directeur d'agence", "mener un entretien avec un conseiller en retard sur ses objectifs commerciaux",
+    "Le conseiller est démotivé par ses résultats. Le directeur doit analyser les causes et construire un plan d'action.",
+    "Conseiller découragé, qui explique ses résultats par le contexte de marché."],
+  ["B", "Management", "Accompagner un conseiller en difficulté sur la prospection", "un directeur d'agence", "accompagner un conseiller qui évite la prospection commerciale",
+    "Le conseiller préfère le portefeuille existant. Le directeur doit comprendre le blocage et proposer un cadre.",
+    "Conseiller à l'aise avec ses clients actuels, mal à l'aise à l'idée de démarcher."],
+  ["B", "Management", "Annoncer de nouveaux objectifs plus exigeants", "un directeur d'agence", "annoncer à son équipe de nouveaux objectifs commerciaux plus exigeants",
+    "Les objectifs augmentent. Le directeur doit expliquer le contexte, écouter les inquiétudes et rester mobilisateur.",
+    "Conseiller sceptique, qui juge les objectifs irréalistes."],
+  ["B", "Relation client", "Annoncer un refus de crédit", "un conseiller clientèle", "annoncer un refus de crédit à un client et préserver la relation",
+    "Le dossier ne passe pas. Le conseiller doit expliquer clairement, proposer des pistes et rester humain.",
+    "Client déçu, qui compte sur ce crédit et conteste la décision."],
+  ["B", "Relation client", "Client inquiet de la baisse de ses placements", "un conseiller clientèle", "rassurer un client inquiet de la baisse de la valeur de ses placements",
+    "Le marché est volatil. Le conseiller doit expliquer sans minimiser et rappeler la stratégie.",
+    "Client anxieux, qui veut tout vendre immédiatement."],
+  ["B", "Relation client", "Réclamation sur des frais bancaires", "un conseiller clientèle", "traiter la réclamation d'un client contestant des frais bancaires prélevés",
+    "Le client estime avoir été mal informé. Le conseiller doit écouter, expliquer et proposer une solution.",
+    "Client agacé, qui menace de changer de banque."],
+  ["B", "Conformité & sécurité", "Collecter les informations réglementaires d'un client réticent", "un conseiller clientèle", "recueillir les informations réglementaires auprès d'un client réticent à les fournir",
+    "Le client juge les questions intrusives. Le conseiller doit expliquer l'obligation légale et rassurer.",
+    "Client agacé, qui demande pourquoi la banque a besoin de ces informations."],
+  ["B", "Conformité & sécurité", "Signaler une opération suspecte", "un collaborateur", "faire part à son manager d'une opération suspecte et décider de la suite à donner",
+    "L'opération présente des signaux inhabituels. Le collaborateur doit exposer les faits sans accuser et suivre la procédure.",
+    "Manager attentif, qui demande des éléments précis avant d'alerter la conformité."],
+  ["B", "Communication interne", "Défendre un dossier de crédit en comité", "un chargé d'affaires", "présenter et défendre un dossier de crédit devant le comité d'engagement",
+    "Le comité challenge les hypothèses. Le chargé d'affaires doit argumenter avec des chiffres et répondre aux objections.",
+    "Membre du comité, exigeant, qui insiste sur les risques."],
+  ["B", "Communication interne", "Transmettre un portefeuille client", "un conseiller clientèle", "transmettre son portefeuille client à un collègue avant un départ",
+    "La transmission doit être complète et fluide. Le conseiller doit prioriser les clients et signaler les points sensibles.",
+    "Collègue repreneur, pressé, qui pose des questions précises sur chaque client."],
+
+  /* FORMATION */
+  ["F", "Management", "Annoncer la baisse d'heures d'un formateur interne", "un responsable d'académie", "annoncer à un formateur interne que ses heures d'animation vont diminuer",
+    "L'académie réduit son volume de présentiel. Le responsable doit expliquer et proposer d'autres missions.",
+    "Formateur attaché à l'animation, qui se sent dévalorisé."],
+  ["F", "Management", "Accompagner un formateur débutant après une session difficile", "un responsable pédagogique", "accompagner un formateur débutant après une session animée qui s'est mal passée",
+    "Le formateur doute de lui. Le responsable doit débriefer sans l'accabler et construire un plan de progression.",
+    "Formateur débutant, découragé, qui pense ne pas être fait pour ce métier."],
+  ["F", "Management", "Arbitrer un désaccord entre deux concepteurs", "un responsable pédagogique", "arbitrer un désaccord entre deux concepteurs pédagogiques sur l'approche d'un parcours",
+    "Chacun défend sa vision. Le responsable doit écouter, recentrer sur l'objectif apprenant et trancher.",
+    "Concepteur pédagogique convaincu de sa méthode, qui prend les critiques personnellement."],
+  ["F", "Relation client", "Apprenant démotivé qui perturbe la session", "un formateur", "gérer un apprenant démotivé qui perturbe la session de formation",
+    "L'apprenant a été envoyé par son manager. Le formateur doit retrouver son engagement sans perdre le groupe.",
+    "Apprenant fermé, qui lâche qu'il n'a rien demandé et ne voit pas l'intérêt."],
+  ["F", "Relation client", "Cadrer le besoin d'un manager commanditaire", "un chargé de relation entreprise", "recueillir le besoin d'un manager qui veut une formation sans savoir exactement pour quoi",
+    "Le manager veut « quelque chose sur la communication ». Le chargé doit creuser le vrai problème.",
+    "Manager commanditaire, vague, pressé, qui veut une réponse rapide."],
+  ["F", "Relation client", "Apprenant mécontent de sa formation", "un chargé de formation", "répondre à un apprenant mécontent de la formation qu'il vient de suivre",
+    "L'apprenant juge la formation trop théorique. Le chargé doit écouter, comprendre et proposer une suite.",
+    "Apprenant déçu, qui estime avoir perdu son temps."],
+  ["F", "Conformité & sécurité", "Rappeler les obligations de traçabilité", "un responsable qualité formation", "rappeler à un formateur ses obligations de traçabilité sur les émargements et évaluations",
+    "Les pièces manquent avant un audit. Le responsable doit rappeler les règles et obtenir une régularisation rapide.",
+    "Formateur indépendant, qui juge ces obligations administratives excessives."],
+  ["F", "Conformité & sécurité", "Demande de suppression des données personnelles", "un chargé de formation", "répondre à un apprenant qui demande la suppression de ses données personnelles",
+    "Le chargé doit appliquer la procédure de protection des données, expliquer ce qui peut être supprimé ou conservé.",
+    "Apprenant informé de ses droits, qui exige une réponse précise et des délais."],
+  ["F", "Communication interne", "Défendre le budget formation devant la direction", "un directeur de la formation", "présenter à la direction le bilan d'un dispositif de formation et défendre son budget",
+    "La direction doute du retour sur investissement. Le directeur doit présenter des résultats et argumenter.",
+    "Directeur financier, sceptique, qui demande des chiffres et l'impact business."],
+  ["F", "Communication interne", "Convaincre un manager de libérer ses équipes", "un chargé de formation", "convaincre un manager de libérer ses collaborateurs pour suivre une formation",
+    "Le manager invoque la charge de travail. Le chargé doit argumenter sur la valeur et proposer un calendrier.",
+    "Manager débordé, qui voit la formation comme une perte de temps."]
+];
+/* 3 phrases par cas, dans l'ordre de la scène : ouvrir, explorer, conclure. Même ordre que ROWS. */
+var PHRASES = [
+  /* SERVICES */
+  ["Merci d'avoir pris ce temps. Je voulais te parler de tes retards de ces dernières semaines, parce que ça commence à peser sur l'équipe.", "Qu'est-ce qui se passe de ton côté pour que ça arrive aussi souvent ?", "On retient ceci : à partir de lundi tu arrives pour 9 h, et on refait un point dans deux semaines. Ça te va ?"],
+  ["Je voulais vous annoncer en direct une évolution de l'organisation, et je vous dis tout de suite ce que je sais et ce que je ne sais pas encore.", "Je comprends que ça génère des questions. Qu'est-ce qui vous inquiète le plus dans ce changement ?", "Je reviens vers vous jeudi avec les réponses qui me manquent, et chacun aura un entretien individuel d'ici vendredi."],
+  ["J'ai une mission importante à te confier, parce que je pense que tu peux la mener.", "De quoi aurais-tu besoin pour te sentir à l'aise sur ce sujet ?", "Tu as la main sur le contenu. On fait un point d'avancement mercredi, et tu viens me voir dès que tu bloques."],
+  ["Je comprends votre mécontentement : ce retard n'aurait pas dû arriver, et je tiens à vous expliquer ce qui s'est passé.", "Pour traiter votre priorité, qu'est-ce qui est le plus critique pour vous dans ce livrable ?", "Voici le plan : première partie livrée vendredi, le reste mardi, et je vous appelle chaque matin pour le suivi."],
+  ["Pour bien comprendre votre besoin, pouvez-vous me raconter la situation qui vous a amené à nous contacter ?", "Si je résume, vous cherchez avant tout à gagner du temps sur vos processus. C'est bien cela ?", "Je vous propose de formaliser tout ça dans une note d'une page, et on la valide ensemble jeudi."],
+  ["Je comprends l'intérêt de cette demande, et je vois bien pourquoi elle compte pour vous.", "Elle sort du périmètre convenu, donc je ne peux pas l'intégrer sans impact sur le planning ou le budget.", "Je vous propose deux options : l'ajouter par avenant, ou la traiter dans une phase 2. Laquelle vous convient ?"],
+  ["Je voulais vous signaler quelque chose qui m'a interpellé, sans en tirer de conclusion.", "Voici les faits que j'ai constatés : la date, le fournisseur concerné et le lien que j'ai observé.", "Que dois-je faire à partir de maintenant, et qui doit être informé ?"],
+  ["Je voulais te parler du document parti hier à la mauvaise adresse, pas pour te le reprocher.", "Comment ça s'est passé de ton côté ? Qu'est-ce qui t'a fait choisir ce destinataire ?", "Pour la suite, on vérifie toujours le destinataire et on utilise le dossier partagé protégé. Tu veux que je te montre ?"],
+  ["Je voulais faire un point avec toi sur la présentation d'hier. D'abord, ce qui a bien fonctionné : ta partie sur les chiffres était claire.", "Ce qui m'a semblé moins efficace, c'est la partie recommandations. Comment l'as-tu vécue ?", "Pour la prochaine, on se voit mardi pour répéter ensemble, et tu me proposes une structure plus courte."],
+  ["Merci de me recevoir. J'ai un projet urgent et j'aurais besoin de ton aide sur une ressource clé.", "Je sais que tes équipes sont chargées. Quelles sont tes contraintes des trois prochaines semaines ?", "Et si je te l'empruntais deux jours par semaine pendant un mois, avec un point à mi-parcours ?"],
+
+  /* SANTÉ */
+  ["Je souhaite vous parler de la situation entre vous deux, parce qu'elle a un impact sur le service.", "J'aimerais d'abord entendre ta version, sans t'interrompre. Qu'est-ce qui s'est passé selon toi ?", "Voici ce qu'on met en place : un point de coordination chaque matin pendant deux semaines, et on se revoit vendredi."],
+  ["Je vous réunis pour vous annoncer un changement de planning sur les week-ends, et je vous explique pourquoi.", "Je comprends que ça vous impacte. Qu'est-ce qui vous pose le plus de difficulté dans cette organisation ?", "Le principe reste en place, mais je peux étudier des échanges de week-ends entre vous, à me proposer d'ici jeudi."],
+  ["Je voulais prendre de tes nouvelles depuis ton arrivée. Comment ça se passe, vraiment ?", "Qu'est-ce qui te paraît le plus difficile en ce moment ?", "On planifie un binôme sur trois postes la semaine prochaine, et on refait un point vendredi."],
+  ["Je comprends votre inquiétude, et merci de m'en parler directement.", "Voici ce que nous avons fait cette semaine pour votre proche, et ce que nous allons surveiller.", "Je vous propose un point chaque jeudi avec l'équipe, et vous pouvez demander le cadre du service à tout moment."],
+  ["Je comprends que l'attente soit longue, et je suis désolé pour ce désagrément.", "Voici où vous en êtes : les cas urgents passent en premier, et vous passez après deux autres personnes.", "Je vous préviens dès qu'il y a du nouveau, et je repasse vous voir dans vingt minutes."],
+  ["Je dois vous annoncer que votre intervention est reportée, et je veux vous expliquer pourquoi.", "Un cas urgent a pris la salle. Je comprends que ce soit difficile après vous être préparé.", "Nouvelle date proposée : jeudi matin. Si elle ne vous convient pas, je cherche une alternative avec vous."],
+  ["Je dois vous signaler un écart de procédure que je viens de constater sur le lot 4.", "Voici les faits : la date, l'heure, l'étape concernée et ce qui n'a pas été respecté.", "J'ai isolé le lot en attendant votre décision. Quelle action recommandez-vous ?"],
+  ["Je voulais te parler de ce que tu as dit tout à l'heure dans le couloir, parce que ça me gêne un peu.", "On était dans un lieu où d'autres pouvaient entendre. Tu en as conscience ?", "On s'engage à parler des patients uniquement en salle de transmission. Ça te va ?"],
+  ["Je vous transmets l'essentiel sur la chambre 12 : douleur à surveiller et traitement modifié à 18 h.", "Les trois points d'attention de la nuit : constantes toutes les deux heures, hydratation, appel au médecin en cas de fièvre.", "Avez-vous des questions ? Pouvez-vous me reformuler les points à surveiller ?"],
+  ["Je voulais faire un point sur le soin de tout à l'heure. Comment l'as-tu vécu ?", "Il y a un geste à reprendre : la position de la main. Je te montre, puis tu le refais devant moi.", "Tu as bien progressé sur le reste. On refait le geste demain matin ensemble ?"],
+
+  /* INDUSTRIE */
+  ["J'ai un changement à t'annoncer sur ton poste, et je préfère te l'expliquer de vive voix.", "Je sais que tu es attaché à ce poste. Qu'est-ce qui te préoccupe dans ce changement ?", "On teste pendant deux semaines, avec un point en milieu de période pour ajuster."],
+  ["Je vous réunis tous les deux parce que les passations de poste posent problème, et je veux qu'on trouve une solution ensemble.", "Dites-moi chacun ce qui est laissé en l'état à la fin de votre poste, avec des exemples précis.", "On définit une check-list commune de fin de poste, validée par vous deux d'ici vendredi."],
+  ["Je voulais parler de l'incident qualité de lundi, pas pour chercher un coupable, mais pour qu'on apprenne.", "Qu'est-ce qui, selon vous, a conduit à ce défaut ?", "Voilà ce qu'on change dès demain, et je vous remercie pour la façon dont vous avez géré la reprise."],
+  ["Je vous remercie pour votre alerte. Nous reconnaissons que le lot n'est pas conforme.", "Voici notre plan : analyse des causes sous 48 heures et remplacement du lot sous cinq jours.", "Je vous rappelle jeudi avec le rapport d'analyse. Cela vous convient-il ?"],
+  ["Je comprends l'urgence : votre machine est à l'arrêt et chaque heure compte.", "Pour intervenir vite, pouvez-vous me décrire ce qui s'est passé et le message d'erreur affiché ?", "Un technicien est chez vous demain à 8 h, et je vous tiens informé de son arrivée."],
+  ["Je vous contacte pour vous prévenir d'un retard de livraison avant qu'il ne vous impacte.", "Quelle est la date limite côté production pour que vous ne soyez pas bloqué ?", "Je vous propose une livraison partielle mardi et le solde jeudi, avec un suivi quotidien."],
+  ["Je vois que tu travailles sans tes protections. Je dois t'en parler tout de suite.", "Qu'est-ce qui te gêne dans l'équipement ?", "Je comprends, on regarde une alternative, mais d'ici là tu le portes. C'est non négociable."],
+  ["Je voulais qu'on revienne ensemble sur ce qui s'est passé tout à l'heure, pour que ça n'arrive à personne d'autre.", "Raconte-moi la scène depuis le début, comme tu l'as vécue.", "Qu'est-ce qu'on change pour éviter que cela se reproduise ? Je note tes propositions."],
+  ["Voici les points clés de la fin de poste : la ligne 2 tourne à cadence réduite et la machine B est à surveiller.", "Le seul sujet urgent : le réglage à contrôler chaque heure. Rien de particulier côté sécurité.", "Peux-tu me redire les deux points que tu dois surveiller ?"],
+  ["Merci de me recevoir. Je vous apporte des chiffres sur une panne qui revient chaque semaine.", "Elle coûte environ deux heures de production par semaine, soit [x] pièces.", "Pourriez-vous l'intégrer à votre planning cette semaine ? Je vous apporte les relevés."],
+
+  /* RETAIL */
+  ["Je voulais te parler de ton accueil des clients, parce que j'ai reçu quelques retours.", "Voici deux exemples précis que j'ai observés. Comment tu les vois ?", "On se fixe un objectif simple : saluer chaque client dans les dix secondes. On fait un point vendredi."],
+  ["Je vous réunis pour vous présenter les horaires pendant les soldes, et je vous explique les raisons.", "Qui a des contraintes particulières ? Dites-le-moi aujourd'hui pour que j'en tienne compte.", "Je ne peux pas satisfaire tout le monde, mais voici ce que je peux aménager."],
+  ["Je vois que tu hésites à aborder les clients. Qu'est-ce qui te freine ?", "Essayons ensemble : je joue le client, et tu m'abordes avec une phrase simple.", "Aujourd'hui, ton objectif, c'est trois clients abordés. On fait le point à 16 h."],
+  ["Je comprends que vous souhaitiez être remboursé, et je vous remercie de votre fidélité.", "Le délai de remboursement est dépassé, donc je ne peux pas rembourser, mais je peux vous proposer un avoir.", "Souhaitez-vous l'avoir ou un échange contre un autre article ?"],
+  ["Qu'est-ce qui est le plus important pour vous dans ce produit : le prix, la durée ou la taille ?", "Si je comprends bien, vous voulez quelque chose de simple et robuste. Je vous montre deux modèles.", "Celui-ci correspond à vos critères. Voulez-vous que je vous l'emballe ?"],
+  ["Je comprends que ce soit agaçant, je suis désolé pour l'attente.", "J'ouvre une caisse tout de suite. Passez par ici, je m'occupe de vous.", "Merci de votre patience. Je vous souhaite une bonne journée."],
+  ["Bonjour, puis-je vous aider ? Je voulais m'assurer que tout se passait bien.", "Si vous le souhaitez, je vous accompagne en caisse avec ce que vous avez en main.", "Merci. Je préviens simplement mon responsable, comme la procédure le prévoit."],
+  ["Je voulais faire un point avec toi sur l'écart de caisse de cette semaine, sans t'accuser de quoi que ce soit.", "Peux-tu me décrire comment se passe ta fermeture de caisse ?", "On refait la procédure ensemble ce soir, et je compte l'écart avec toi jusqu'à vendredi."],
+  ["Bonjour à tous, trois priorités aujourd'hui : l'opération promo, les stocks du rayon A et la caisse.", "Qui a des points bloquants ? Je prends deux minutes pour les traiter.", "On se retrouve à midi pour un point rapide. Bonne journée !"],
+  ["Je vous contacte pour une rupture d'approvisionnement qui se répète depuis trois semaines.", "Elle nous coûte environ [x] ventes par semaine sur ce produit.", "Pouvez-vous m'indiquer qui peut débloquer la situation et sous quel délai ?"],
+
+  /* BANQUE & FINANCE */
+  ["Je voulais faire un point sur tes résultats du trimestre, et comprendre comment tu vis la situation.", "Qu'est-ce qui, selon toi, explique l'écart avec l'objectif ?", "Voici ce qu'on met en place : deux rendez-vous prospects par semaine et un point chaque vendredi."],
+  ["J'ai remarqué que tu préfères travailler avec les clients du portefeuille. Qu'est-ce qui te freine pour la prospection ?", "Et si on s'entraînait ensemble avec un appel de prospect, en jeu de rôle ?", "Ton objectif de la semaine : cinq appels, et on débriefe ensemble vendredi."],
+  ["Je vous annonce les objectifs de l'année prochaine, et je vous explique le contexte.", "Je comprends que ça paraisse ambitieux. Qu'est-ce qui vous paraît le plus difficile ?", "On ajuste le plan d'actions ensemble, et je porte vos remarques en comité la semaine prochaine."],
+  ["Je dois vous annoncer que la banque ne peut pas accorder ce crédit pour le moment, et je veux vous expliquer pourquoi.", "Je comprends votre déception. Voyons ce qu'on peut faire autrement.", "Je vous propose de revoir le dossier dans trois mois avec un apport plus important. Cela vous convient ?"],
+  ["Je comprends votre inquiétude face à cette baisse, et je préfère vous en parler tout de suite.", "Rappelons votre horizon : vous avez investi pour dix ans, et ce type de variation est normal.", "Je vous propose de garder la stratégie actuelle et de faire un point chaque trimestre."],
+  ["Je comprends que ces frais vous surprennent, laissez-moi vérifier votre dossier.", "Voici d'où viennent ces frais, et ce que vous pouvez faire pour les éviter.", "Je fais un geste commercial sur le dernier prélèvement et je vous le confirme par écrit."],
+  ["J'ai besoin de quelques informations pour mettre à jour votre dossier, comme la loi l'impose à toutes les banques.", "Je comprends que cela puisse sembler intrusif. Ces données restent confidentielles.", "Pouvez-vous m'apporter ces trois documents d'ici vendredi ? Je vous écris pour vous les lister."],
+  ["Je voulais vous parler d'une opération qui me semble inhabituelle sur le compte de ce client.", "Voici ce que j'ai constaté : le montant, la fréquence et le destinataire.", "Selon la procédure, je la déclare à la conformité aujourd'hui. Êtes-vous d'accord ?"],
+  ["Je vous présente le dossier de la société X : demande de [x] euros pour financer une extension.", "Les risques identifiés sont l'endettement et la dépendance à un client, mais voici les garanties proposées.", "Je recommande un accord avec deux conditions suspensives. Je suis prêt à répondre à vos questions."],
+  ["Je te passe mon portefeuille avant mon départ. Voici les cinq clients à traiter en priorité.", "Pour ce client, attention : il préfère être contacté le matin et il a une demande en cours.", "Tout le détail est dans le fichier. Veux-tu qu'on fasse un point de dix minutes sur les cas sensibles ?"],
+
+  /* FORMATION */
+  ["Je voulais t'annoncer en direct une évolution de l'académie qui impacte tes heures d'animation.", "Je sais que l'animation compte beaucoup pour toi. Comment reçois-tu cette nouvelle ?", "Je te propose de prendre en charge le tutorat de nouveaux formateurs, et on en reparle dans deux semaines."],
+  ["Je voulais prendre un moment avec toi après ta session. Comment l'as-tu vécue ?", "Qu'est-ce qui a bien fonctionné selon toi, et qu'est-ce que tu referais autrement ?", "On assiste ensemble à une session d'un collègue la semaine prochaine, et tu me dis ce que tu retiens."],
+  ["Je vous ai réunis pour clarifier vos deux approches sur ce parcours.", "Chacun, présentez en deux minutes l'apprentissage que vous visez pour l'apprenant.", "On teste les deux versions auprès d'un petit groupe et on décide sur les résultats."],
+  ["Je vois que ce n'est pas simple pour vous d'être ici. Qu'est-ce qui vous aiderait ?", "Qu'aimeriez-vous retirer de cette journée pour votre travail ?", "Je vous propose de partir d'un cas concret que vous rencontrez, pour rendre cette session utile."],
+  ["Pour bien comprendre votre besoin, quelle situation vous a poussé à demander cette formation ?", "Qu'aimeriez-vous voir changer concrètement chez vos équipes dans trois mois ?", "Si je résume, l'objectif est [x]. Je vous envoie une proposition sous deux jours."],
+  ["Merci de m'avoir dit ce que vous pensez, c'est très utile.", "Qu'est-ce qui vous a paru trop théorique, et qu'auriez-vous aimé travailler ?", "Je propose un atelier pratique de deux heures le mois prochain, et je vous inscris en priorité."],
+  ["Je voulais te rappeler les pièces à fournir avant l'audit : émargements et évaluations.", "Qu'est-ce qui te complique cette tâche administrative ?", "Peux-tu m'envoyer les documents manquants avant jeudi ? Je te propose un modèle plus simple."],
+  ["Je vous confirme la réception de votre demande de suppression de vos données personnelles.", "Voici ce que nous supprimons, et ce que la loi nous oblige à conserver, et pendant combien de temps.", "Vous recevrez une confirmation écrite sous un mois."],
+  ["Je vous présente le bilan du dispositif : [x] % de complétion et [y] % de baisse des erreurs.", "Le retour sur investissement tient à trois points : productivité, rétention et conformité.", "Je demande un budget de [x] pour étendre le dispositif à deux nouveaux services."],
+  ["Je sais que votre charge est élevée, et je ne viens pas vous retirer du temps pour rien.", "Cette formation permet à vos équipes de gagner environ [x] heures par semaine ensuite.", "Je propose deux demi-journées, hors période de pic. Quelles dates vous arrangent ?"]
+];
+var EXAMPLES = ROWS.map(function (r, i) {
+  return {
+    id: i + 1, ind: SECT[r[0]], type: r[1], dur: "3 min",
+    title: r[2], role: (function (s) { s = s.replace(/^(un|une) /, ""); return s.charAt(0).toUpperCase() + s.slice(1); })(r[3]), goal: r[4].charAt(0).toUpperCase() + r[4].slice(1), scenario: r[5], avatar: r[6], skill: SKILLS[r[1]],
+    prompt: STEM + r[3] + " de {entreprise} doit " + r[4] + ".",
+    phrases: PHRASES[i]
+  };
+});
+
+
+var INDUSTRIES = ["Services", "Santé", "Industrie", "Retail", "Banque & finance", "Formation"];
+var ABBR = { "Services": "Sv", "Santé": "Sa", "Industrie": "In", "Retail": "Re", "Banque & finance": "Bf", "Formation": "Fo" };
+var TYPES = ["Management", "Relation client", "Conformité & sécurité", "Communication interne"];
+var LABELS = ["Ouvrir", "Explorer", "Conclure"];
+var state = { ind: "Tous", type: "Tous", q: "", entreprise: "", open: 0 };
+var lastFocus = null;
+
+function $(id) { return document.getElementById(id); }
+function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+function byId(id) { return EXAMPLES.filter(function (e) { return e.id === id; })[0]; }
+function tIdx(e) { return TYPES.indexOf(e.type); }
+
+function plainPrompt(tpl) { return tpl.replace(/\{entreprise\}/g, state.entreprise.trim() || "[entreprise]"); }
+function htmlPrompt(tpl) {
+  return esc(tpl).replace(/\{entreprise\}/g, function () {
+    var v = state.entreprise.trim();
+    return v ? '<span class="f">' + esc(v) + "</span>" : '<span class="v">[entreprise]</span>';
+  });
+}
+
+function matches(e) {
+  if (state.ind !== "Tous" && e.ind !== state.ind) return false;
+  if (state.type !== "Tous" && e.type !== state.type) return false;
+  var q = state.q.trim().toLowerCase();
+  if (q) {
+    var hay = (e.title + " " + e.scenario + " " + e.avatar + " " + e.ind + " " + e.type + " " + e.phrases.join(" ")).toLowerCase();
+    if (hay.indexOf(q) === -1) return false;
+  }
+  return true;
+}
+
+var QUOTE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>';
+
+function renderFilters() {
+  var pills = ["Tous"].concat(INDUSTRIES).map(function (n) {
+    return '<button type="button" class="pill" data-ind="' + esc(n) + '" aria-pressed="' + (state.ind === n) + '">' + (n === "Tous" ? "Tous les secteurs" : esc(n)) + "</button>";
+  }).join("");
+  $("pills").innerHTML = pills;
+  $("tiles").innerHTML = TYPES.map(function (n, i) {
+    var c = EXAMPLES.filter(function (e) { return e.type === n; }).length;
+    return '<button type="button" class="tile" data-piece data-type="' + esc(n) + '" aria-pressed="' + (state.type === n) + '"><span class="lab"><b>' + esc(n) + "</b><small>" + c + " cas</small></span></button>";
+  }).join("");
+}
+
+function cardHtml(e) {
+  var short = e.avatar.split(/[,.]/)[0];
+  var n = tIdx(e);
+  return '<button type="button" class="card t' + n + '" data-id="' + e.id + '">' +
+    '<span class="card-top" style="background-size:' + (200 + (e.id * 37) % 140) + '%;background-position:' + ((e.id * 53) % 101) + '% ' + ((e.id * 29) % 101) + '%"></span>' +
+    '<span class="card-body"><h3>' + esc(e.title) + '</h3><span class="chips"><span class="chip">' + esc(e.dur) + '</span><span class="chip tc">' + esc(e.type) + "</span></span></span>" +
+    '<span class="card-foot"><span class="av">' + esc(short.charAt(0).toUpperCase()) + '</span><span class="av-name">' + esc(short) + '</span><span class="q">' + QUOTE + "3</span></span>" +
+    "</button>";
+}
+
+function renderSections() {
+  var list = EXAMPLES.filter(matches);
+  if (!list.length) { $("sections").innerHTML = '<div class="empty">Aucun cas ne correspond. Changez de secteur ou effacez la recherche.</div>'; return; }
+  var wide = state.ind === "Tous";
+  $("sections").innerHTML = INDUSTRIES.map(function (ind) {
+    var items = list.filter(function (e) { return e.ind === ind; });
+    if (!items.length) return "";
+    return '<section><div class="sec-head"><h2>' + esc(ind) + '</h2><span class="count">' + items.length + "</span>" +
+      '<button type="button" class="seeall" data-see="' + (wide ? esc(ind) : "Tous") + '">' + (wide ? "Tout voir" : "Tous les secteurs") + "</button></div>" +
+      '<div class="' + (wide ? "row-scroll" : "row-grid") + '">' + items.map(cardHtml).join("") + "</div></section>";
+  }).join("");
+}
+
+function layoutMosaic() {
+  var heroBox = document.querySelector(".hero"), bg = $("hero-bg"), tiles = $("tiles");
+  if (!heroBox || !bg || !tiles) return;
+  var narrow = heroBox.getBoundingClientRect().width < 1280;
+  heroBox.classList.toggle("narrow", narrow);
+  var hr = bg.getBoundingClientRect(), W = hr.width, H = hr.height;
+  var phone = window.innerWidth <= 520;
+  var sc = Math.max(W / 2000, H / 1050);
+  if (phone) sc = Math.max(sc, 1.5 * W / 2000);
+  var iw = 2000 * sc, ih = 1050 * sc;
+  var logoH = 0.17 * ih;
+  var cy = (narrow && !phone) ? H - logoH / 2 - 28 : H / 2;
+  var top = Math.min(0, Math.max(H - ih, cy - 0.495 * ih));
+  bg.style.backgroundSize = iw + "px " + ih + "px";
+  bg.style.backgroundPosition = ((W - iw) / 2) + "px " + top + "px";
+  var tr = tiles.getBoundingClientRect(), Wt = tr.width, Ht = tr.height;
+  var s2 = Math.max(Wt / 2000, 2.5 * Ht / 1050), iw2 = 2000 * s2, ih2 = 1050 * s2;
+  var l2 = (Wt - iw2) / 2, t2 = Ht - ih2;
+  var list = tiles.querySelectorAll(".tile");
+  for (var k = 0; k < list.length; k++) {
+    var r = list[k].getBoundingClientRect();
+    list[k].style.backgroundSize = iw2 + "px " + ih2 + "px";
+    list[k].style.backgroundPosition = (l2 - (r.left - tr.left)) + "px " + (t2 - (r.top - tr.top)) + "px";
+  }
+}
+function renderAll() { renderFilters(); renderSections(); layoutMosaic(); }
+window.addEventListener("resize", layoutMosaic);
+window.addEventListener("load", layoutMosaic);
+try { if (document.fonts && document.fonts.ready) document.fonts.ready.then(layoutMosaic); } catch (err) {}
+
+function drawerHtml(e) {
+  return '<div class="drawer-head t' + tIdx(e) + '"><span class="chips"><span class="chip">' + esc(e.ind) + '</span><span class="chip">' + esc(e.dur) + '</span><span class="chip tc">' + esc(e.type) + "</span></span>" +
+    '<button type="button" class="close" id="close" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>' +
+    '<div class="drawer-body"><h1>' + esc(e.title) + "</h1>" +
+    '<p class="scenario">' + esc(e.scenario) + "</p>" +
+    '<dl class="facts"><dt>Avatar</dt><dd>' + esc(e.avatar) + "</dd><dt>Rôle de l'apprenant</dt><dd>" + esc(e.role) + "</dd><dt>Objectif</dt><dd>" + esc(e.goal) + "</dd><dt>Compétence</dt><dd>" + esc(e.skill) + "</dd></dl>" +
+    '<div class="dsec"><h2>Prompt à donner à RolePlay</h2><p>Les champs de RolePlay se remplissent à partir de cette phrase.</p><div class="prompt-box"><p class="prompt" id="prompt-text">' + htmlPrompt(e.prompt) + "</p></div></div>" +
+    '<div class="dsec"><h2>Suggestion de phrases clefs</h2><p>Dans l\'ordre de la scène. Vous jouez l\'apprenant, l\'avatar répond.</p><ol class="lines">' +
+    e.phrases.map(function (s, k) { return "<li><b>" + LABELS[k] + "</b>" + esc(s) + "</li>"; }).join("") + "</ol></div></div>" +
+    '<div class="drawer-foot"><button type="button" class="copy" id="copy">Copier le prompt</button></div>';
+}
+
+function openCase(id) {
+  var e = byId(id);
+  if (!e) return;
+  lastFocus = document.activeElement;
+  state.open = id;
+  $("drawer").innerHTML = drawerHtml(e);
+  $("drawer").hidden = false;
+  $("scrim").hidden = false;
+  try { document.body.style.overflow = "hidden"; } catch (err) {}
+  try { location.hash = "cas-" + id; } catch (err) {}
+  var c = $("close"); if (c) c.focus();
+}
+function closeCase() {
+  state.open = 0;
+  $("drawer").hidden = true;
+  $("scrim").hidden = true;
+  try { document.body.style.overflow = ""; } catch (err) {}
+  try { history.replaceState(null, "", location.pathname + location.search); } catch (err) {}
+  if (lastFocus && lastFocus.focus) { try { lastFocus.focus(); } catch (err) {} }
+}
+
+function fallbackSelect(el) {
+  try { var r = document.createRange(); r.selectNodeContents(el); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); } catch (err) {}
+}
+
+document.addEventListener("click", function (ev) {
+  var t = ev.target.closest("button");
+  if (ev.target === $("scrim")) { closeCase(); return; }
+  if (!t) return;
+  if (t.hasAttribute("data-ind")) { state.ind = state.ind === t.getAttribute("data-ind") && t.classList.contains("rail-btn") ? "Tous" : t.getAttribute("data-ind"); renderAll(); return; }
+  if (t.hasAttribute("data-type")) { state.type = state.type === t.getAttribute("data-type") ? "Tous" : t.getAttribute("data-type"); renderAll(); return; }
+  if (t.hasAttribute("data-see")) { state.ind = t.getAttribute("data-see"); renderAll(); window.scrollTo(0, 0); return; }
+  if (t.id === "rail-home") { state.ind = "Tous"; state.type = "Tous"; state.q = ""; $("q").value = ""; renderAll(); window.scrollTo(0, 0); return; }
+  if (t.classList.contains("card")) { openCase(Number(t.getAttribute("data-id"))); return; }
+  if (t.id === "close") { closeCase(); return; }
+  if (t.id === "copy") {
+    var ex = byId(state.open);
+    var text = plainPrompt(ex.prompt);
+    var label = "Copier le prompt";
+    var done = function () { t.textContent = "Copié"; t.classList.add("done"); setTimeout(function () { t.textContent = label; t.classList.remove("done"); }, 1800); };
+    var failed = function () { fallbackSelect($("prompt-text")); t.textContent = "Texte sélectionné, faites Ctrl/Cmd+C"; setTimeout(function () { t.textContent = label; }, 3000); };
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, failed); } else { failed(); }
+  }
+});
+
+document.addEventListener("keydown", function (ev) { if (ev.key === "Escape" && state.open) closeCase(); });
+
+$("q").addEventListener("input", function (e) { state.q = e.target.value; renderSections(); });
+$("v-entreprise").addEventListener("input", function (e) {
+  state.entreprise = e.target.value;
+  try { localStorage.setItem("rp-cas-usage-vars", JSON.stringify({ entreprise: state.entreprise })); } catch (err) {}
+  var p = $("prompt-text"); var ex = byId(state.open);
+  if (p && ex) p.innerHTML = htmlPrompt(ex.prompt);
+});
+
+try {
+  var saved = JSON.parse(localStorage.getItem("rp-cas-usage-vars") || "null");
+  if (saved && saved.entreprise) { state.entreprise = saved.entreprise; $("v-entreprise").value = state.entreprise; }
+} catch (err) {}
+
+renderAll();
+
+try {
+  var m = /^#cas-(\d+)$/.exec(location.hash || "");
+  if (m && byId(Number(m[1]))) openCase(Number(m[1]));
+} catch (err) {}
+</script>
+
+</body></html>
