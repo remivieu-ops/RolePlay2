@@ -1,10 +1,15 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RolePlay Cas d'usage</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
+[hidden] { display: none !important; }
 /* Layout: reprend l'interface de la plateforme 360Learning. Rail étroit à gauche, barre du haut avec fil d'Ariane et recherche, pastilles de filtre, bandeau d'accueil, quatre tuiles de cas d'usage, puis une rangée de cartes par secteur. La fiche s'ouvre dans un panneau latéral. */
 :root {
   --bg: #ffffff;
@@ -104,6 +109,13 @@ button { cursor: pointer; }
 h1, h2, h3, p, ul, ol, dl { margin: 0; }
 svg { display: block; flex: none; }
 .g { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.internal { display: flex; align-items: center; justify-content: center; gap: 8px; background: #18191d; color: #fff; font-size: 13px; font-weight: 500; line-height: 1.35; text-align: center; padding: 8px 16px; padding-top: calc(8px + env(safe-area-inset-top, 0px)); }
+.internal svg { flex: none; }
+.lang { display: flex; flex: none; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; height: 48px; }
+.lang button { background: transparent; border: 0; padding: 0 16px; font-size: .95rem; font-weight: 500; color: var(--muted); min-width: 50px; }
+.lang button + button { border-left: 1px solid var(--line); }
+.lang button[aria-pressed="true"] { background: var(--tint); color: var(--link); font-weight: 700; }
+.lang button:hover { color: var(--fg); }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 .app { display: grid; grid-template-columns: minmax(0, 1fr); min-height: 100vh; }
@@ -222,8 +234,10 @@ svg { display: block; flex: none; }
 @media (max-width: 760px) {
   .app { grid-template-columns: minmax(0, 1fr); }
   .rail { display: none; }
-  .crumb { flex: 1 1 100%; }
-  .company { flex: 1 1 100%; }
+  .crumb { flex: 1 1 0; order: 0; }
+  .lang { order: 1; height: 40px; }
+  .search { order: 2; flex: 1 1 100%; }
+  .company { order: 3; flex: 1 1 100%; }
   .pills { margin-top: 0; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; }
   .pill { white-space: nowrap; }
   .hero { min-height: 200px; }
@@ -246,25 +260,30 @@ svg { display: block; flex: none; }
   @keyframes slide { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }
 }
 </style>
+</head>
+<body>
+
 
 <div class="app">
   <div class="main">
+    <div class="internal" role="note"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span id="t-internal"></span></div>
     <header class="topbar">
       <div class="topbar-in g">
         <div class="crumb">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h5v-5h3v5h5V10"/></svg>
-          <span aria-hidden="true">/</span><b>Cas d'usage</b>
+          <span aria-hidden="true">/</span><b id="t-crumb">Cas d'usage</b>
         </div>
         <label class="search">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
-          <span class="sr">Rechercher</span>
+          <span class="sr" id="t-search-sr">Rechercher</span>
           <input id="q" type="search" placeholder="Rechercher" autocomplete="off">
         </label>
-        <label class="company">
+        <label class="company" id="company-box">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V5.5L13 3v17"/><path d="M13 9h6v11"/><path d="M8.5 8.5h1M8.5 12h1M8.5 15.5h1M16 13h.01M16 16.5h.01"/><path d="M3.5 20h17"/></svg>
-          <span class="sr">Entreprise cliente</span>
+          <span class="sr" id="t-comp-sr">Entreprise cliente</span>
           <input id="v-entreprise" type="text" placeholder="Entreprise cliente" autocomplete="off">
         </label>
+        <div class="lang" role="group" aria-label="Langue / Language"><button type="button" data-lang="fr" aria-pressed="true" lang="fr">FR</button><button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button></div>
       </div>
     </header>
 
@@ -275,8 +294,8 @@ svg { display: block; flex: none; }
       <section class="hero">
         <div class="hero-bg" id="hero-bg"></div>
         <div class="hero-in">
-          <h1>Former vos collaborateurs par la pratique</h1>
-          <p>60 cas d'usage à jouer face à un avatar. Ouvrez un cas, lisez les trois phrases pour jouer la scène, puis copiez le prompt dans RolePlay.</p>
+          <h1 id="t-h1">Former vos collaborateurs par la pratique</h1>
+          <p id="t-hero">x</p>
         </div>
       </section>
 
@@ -567,20 +586,203 @@ var PHRASES = [
   ["Je vous présente le bilan du dispositif : [x] % de complétion et [y] % de baisse des erreurs.", "Le retour sur investissement tient à trois points : productivité, rétention et conformité.", "Je demande un budget de [x] pour étendre le dispositif à deux nouveaux services."],
   ["Je sais que votre charge est élevée, et je ne viens pas vous retirer du temps pour rien.", "Cette formation permet à vos équipes de gagner environ [x] heures par semaine ensuite.", "Je propose deux demi-journées, hors période de pic. Quelles dates vous arrangent ?"]
 ];
-var EXAMPLES = ROWS.map(function (r, i) {
-  return {
-    id: i + 1, ind: SECT[r[0]], type: r[1], dur: "3 min",
-    title: r[2], role: (function (s) { s = s.replace(/^(un|une) /, ""); return s.charAt(0).toUpperCase() + s.slice(1); })(r[3]), goal: r[4].charAt(0).toUpperCase() + r[4].slice(1), scenario: r[5], avatar: r[6], skill: SKILLS[r[1]],
-    prompt: STEM + r[3] + " de {entreprise} doit " + r[4] + ".",
-    phrases: PHRASES[i]
-  };
-});
+
+/* ---- English version ---- */
+var ROWS_EN = [
+/*1*/["Address recurring lateness","a team manager","hold a corrective conversation with an employee whose lateness has been repeating for a month","The manager must set a clear framework without humiliating, understand what is getting in the way and secure a concrete commitment.","Defensive employee, who first downplays the issue then explains what stops them from arriving on time."],
+/*2*/["Announce a reorganization","a manager","announce to their team a reorganization that changes everyone's scope","The announcement raises worries and questions. The manager must stay clear and honest about what they know and don't know.","Worried employee, who asks direct questions about their role and workload."],
+/*3*/["Delegate to a doubtful junior","a manager","delegate an important assignment to a junior employee who doubts their abilities","The manager must reassure, frame the autonomy granted and define follow-up points without doing the work for them.","Junior employee, motivated but hesitant, who is looking for reassurance."],
+/*4*/["Customer unhappy about a late deliverable","a project manager","respond to a customer unhappy about a late deliverable and rebuild trust","The customer is annoyed and threatens to escalate. The project manager must absorb the anger, explain and propose a plan.","Demanding, irritated customer, who keeps interrupting until they feel heard."],
+/*5*/["Clarify a vague customer need","a consultant","capture the need of a customer who expresses their expectations in a confusing way","The customer knows what is wrong but not what they want. The consultant must question and reformulate to clarify.","Well-meaning customer, who changes their mind during the conversation and mixes needs with solutions."],
+/*6*/["Decline an out-of-scope request","a project manager","decline a customer's out-of-scope request without damaging the relationship","The customer asks for a free add-on. The project manager must say no, offer an alternative and preserve trust.","Pleasant but insistent customer, who plays the long-term relationship card."],
+/*7*/["Report a conflict of interest","an employee","alert their manager to a possible conflict of interest involving a supplier","The employee has spotted a link between a supplier and a colleague. They must raise the alert factually, without accusing.","Manager, attentive but cautious, who asks for precise facts."],
+/*8*/["Remind data security rules","an employee","remind a colleague of the data security rules after they shared a sensitive document by mistake","The colleague sent a file to the wrong person. It must be discussed without blame, and the right habits defined.","Embarrassed colleague, who downplays the incident and wants to close the subject quickly."],
+/*9*/["Give constructive feedback","a manager","give constructive feedback to an employee after a disappointing client presentation","The manager must name strengths, areas for improvement and co-build actions.","Sensitive employee, who justifies themselves as soon as mistakes are mentioned."],
+/*10*/["Negotiate resources between departments","a project manager","negotiate with another department head the loan of an expert for an urgent project","Both departments have their own priorities. The project manager must argue their case and find a realistic compromise.","Head of another department, collaborative but protective of their resources."],
+/*11*/["Conflict between two caregivers","a nurse manager","handle a conflict between two caregivers who no longer speak to each other","The tension weighs on the unit. The manager must hear both versions, restore dialogue and set cooperation rules.","Resentful caregiver, convinced they are right, who accuses the other of not doing their share."],
+/*12*/["Announce a schedule change","a nurse manager","announce to their team a schedule change affecting weekends","The new schedule is constrained by understaffing. The manager must explain the reasons, listen to objections and stay firm.","Tired caregiver, who challenges the fairness of the distribution."],
+/*13*/["Support a struggling newcomer","a nurse manager","support a newcomer who is struggling during their onboarding period","The newcomer feels overwhelmed and dares not ask for help. The manager must get them to express their needs.","Quiet newcomer, who says everything is fine when it is not."],
+/*14*/["Family worried about a resident's care","a caregiver","respond to the family of a resident who is worried about their relative's care","The family fears a lack of attention. The caregiver must reassure with facts, without promising the impossible.","Relative of a resident, anxious, who asks many questions and doubts the answers."],
+/*15*/["Patient unhappy about the wait","a reception agent","handle a patient unhappy about a long wait in the emergency room","The wait exceeds what was announced. The agent must inform, show empathy and stay calm in the face of frustration.","Irritated patient, who feels ignored and raises their voice."],
+/*16*/["Explain a postponed procedure","a nurse","explain to a patient why their procedure has been postponed","The postponement is due to an emergency case. The nurse must deliver the news clearly and propose next steps.","Anxious patient, who had prepared and takes it badly."],
+/*17*/["Report a procedure deviation","a lab technician","report to their manager a quality procedure deviation they have just noticed","The deviation may affect traceability. The technician must report the facts precisely and propose an action.","Rigorous quality manager, who asks for dates, batches and circumstances."],
+/*18*/["Remind patient data confidentiality","a caregiver","remind a colleague of confidentiality rules after they discussed a patient in a public area","The colleague talked about a patient in a hallway. It must be said without hurting them, and the rules restated.","Experienced colleague, who finds the remark excessive and justifies themselves."],
+/*19*/["Night shift handover","a nurse","hand over key information about a patient to the night team without omitting anything","The handover must be short and complete. The nurse must prioritize information and check understanding.","Attentive night nurse, who asks precise questions to fill the gaps."],
+/*20*/["Feedback to an intern on a technique","a clinical mentor","give constructive feedback to an intern on a poorly performed technical gesture","The intern made a mistake without serious consequences. The mentor must correct while maintaining trust.","Intimidated intern, who apologizes a lot and struggles to ask questions."],
+/*21*/["Announce a station or pace change","a team leader","announce to an operator a change of station or pace in production","The change answers a need of the line. The team leader must explain, listen and secure buy-in.","Experienced operator, attached to their station, who brings up seniority and physical strain."],
+/*22*/["Conflict between two production teams","a production manager","arbitrate a conflict between two teams blaming each other for shift handover problems","Each team accuses the other of leaving defects. The manager must re-establish the facts and define a common standard.","Defensive team leader, who shifts the blame to the following team."],
+/*23*/["Re-motivate the team after a quality incident","a production manager","re-motivate their team after a quality incident that caused significant scrap","The team feels blamed. The manager must analyze without looking for a culprit and restore confidence.","Demotivated operator, who thinks \"we always get pointed at anyway\"."],
+/*24*/["Non-conforming batch at an industrial customer","a quality manager","respond to an industrial customer who received a non-conforming batch","The customer threatens to suspend orders. The manager must acknowledge the problem, present a corrective plan and reassure.","Demanding industrial customer, who asks for a root-cause analysis within 48 hours."],
+/*25*/["Machine down at the customer's site","a field service technician","handle a customer whose machine is down and who is waiting for an intervention","Every hour of downtime is costly for the customer. The technician must inform, prioritize and stay professional under pressure.","Stressed customer, who asks for a precise intervention date."],
+/*26*/["Delivery delay for a key account","a sales administration assistant","explain a delivery delay to a key account customer and propose a solution","The delay threatens the customer's production. The assistant must inform transparently and propose an alternative.","Customer's buyer, firm, who is looking to obtain a commercial gesture."],
+/*27*/["Operator without protective equipment","a team leader","correct an operator who is not wearing their personal protective equipment","The operator says the equipment gets in the way. The team leader must restate the rule firmly and understand the obstacle.","Seasoned operator, who considers the rules pointless in their case."],
+/*28*/["Debrief a near miss","a safety facilitator","debrief a near miss with the operator involved without looking for a culprit","The goal is to learn. The facilitator must get the facts told and identify the causes with the operator.","Uneasy operator, who fears sanctions and downplays what happened."],
+/*29*/["Shift handover between teams","a team leader","pass end-of-shift instructions to the next team while flagging points of attention","The handover must be clear and short. The team leader must prioritize and make sure everything is understood.","Incoming team leader, in a hurry, who interrupts to get the essentials."],
+/*30*/["Convince maintenance to fix a recurring breakdown","a line operator","convince the maintenance manager to fix a recurring breakdown as a priority","The breakdown slows the line but maintenance has other emergencies. The operator must argue with facts.","Overloaded maintenance manager, who asks for the quantified impact before committing."],
+/*31*/["Correct a salesperson's attitude with customers","a department manager","correct a salesperson whose attitude with customers is seen as cold","Customers have complained. The manager must give precise examples and help the salesperson change.","Experienced salesperson, who thinks they are effective and challenges the remark."],
+/*32*/["Announce changed hours for the sales period","a store manager","announce to their team modified working hours during the sales period","The period is busy and constraints are heavy. The manager must explain, listen and stay firm.","Part-time salesperson, who has personal constraints and asks for adjustments."],
+/*33*/["Coach a recruit who won't approach customers","a department manager","coach a new recruit who hesitates to approach customers","The recruit lacks confidence. The manager must help identify the obstacle and practice.","Shy new recruit, who says they don't want to bother customers."],
+/*34*/["Refund outside the return window","a salesperson","handle a refund request outside the return window while keeping the customer satisfied","The customer wants a refund although the deadline has passed. The salesperson must apply the rule and propose an alternative.","Determined customer, who invokes their loyalty to the brand."],
+/*35*/["Advise an undecided customer","a sales advisor","advise an undecided customer and help them choose without pushing","The customer hesitates between several products. The advisor must understand their need and close.","Cautious customer, who compares prices and asks many questions."],
+/*36*/["Customer upset by the checkout queue","a checkout assistant","defuse a customer upset by a long checkout queue","The customer raises their voice in front of other customers. The assistant must stay calm and find a quick solution.","Hurried, irritated customer, who threatens to abandon their basket."],
+/*37*/["Suspected shoplifting","a store employee","react to a suspicion of shoplifting while following the procedure","The employee must follow the procedure without wrongly accusing. They must stay courteous and call the right person.","Surprised, offended customer, who denies any intent and gets annoyed."],
+/*38*/["Cash register discrepancy","a manager","follow up with a cashier on a repeated cash register discrepancy","The discrepancy keeps recurring. The manager must stick to facts, understand the causes and restate the rules.","Worried cashier, who fears being suspected of dishonesty."],
+/*39*/["Lead the opening briefing","a department manager","lead the opening team briefing in three minutes with the day's priorities","The briefing must be short, motivating and clear. The manager must prioritize the messages.","Hurried team, who interrupts with practical questions."],
+/*40*/["Escalate a supply problem to headquarters","a store manager","escalate to headquarters a supply failure that is hurting sales","Stockouts keep recurring. The manager must argue with facts and obtain action.","Headquarters supply chain manager, busy, who asks for data before reacting."],
+/*41*/["Meeting with an advisor below target","a branch manager","hold a meeting with an advisor who is behind on their sales targets","The advisor is demotivated by their results. The manager must analyze the causes and build an action plan.","Discouraged advisor, who explains their results by the market context."],
+/*42*/["Coach an advisor struggling with prospecting","a branch manager","coach an advisor who avoids sales prospecting","The advisor prefers the existing portfolio. The manager must understand the blocker and propose a framework.","Advisor comfortable with current clients, uneasy at the idea of cold outreach."],
+/*43*/["Announce tougher new targets","a branch manager","announce to their team new, more demanding sales targets","Targets are going up. The manager must explain the context, listen to concerns and stay motivating.","Skeptical advisor, who finds the targets unrealistic."],
+/*44*/["Announce a loan refusal","a customer advisor","announce a loan refusal to a customer and preserve the relationship","The application does not go through. The advisor must explain clearly, suggest options and stay human.","Disappointed customer, who was counting on this loan and challenges the decision."],
+/*45*/["Customer worried about falling investments","a customer advisor","reassure a customer worried about the falling value of their investments","The market is volatile. The advisor must explain without minimizing and restate the strategy.","Anxious customer, who wants to sell everything immediately."],
+/*46*/["Complaint about bank fees","a customer advisor","handle the complaint of a customer disputing bank fees that were charged","The customer feels they were poorly informed. The advisor must listen, explain and propose a solution.","Annoyed customer, who threatens to switch banks."],
+/*47*/["Collect regulatory information from a reluctant customer","a customer advisor","collect regulatory information from a customer reluctant to provide it","The customer finds the questions intrusive. The advisor must explain the legal obligation and reassure.","Annoyed customer, who asks why the bank needs this information."],
+/*48*/["Report a suspicious transaction","an employee","report a suspicious transaction to their manager and decide on next steps","The transaction shows unusual signals. The employee must state the facts without accusing and follow the procedure.","Attentive manager, who asks for precise elements before alerting compliance."],
+/*49*/["Defend a loan file before the committee","a relationship manager","present and defend a loan file before the credit committee","The committee challenges the assumptions. The relationship manager must argue with figures and answer objections.","Committee member, demanding, who insists on the risks."],
+/*50*/["Hand over a client portfolio","a customer advisor","hand over their client portfolio to a colleague before leaving","The handover must be complete and smooth. The advisor must prioritize clients and flag sensitive points.","Incoming colleague, in a hurry, who asks precise questions about each client."],
+/*51*/["Announce reduced hours for an internal trainer","an academy manager","announce to an internal trainer that their teaching hours will decrease","The academy is reducing its in-person volume. The manager must explain and propose other assignments.","Trainer attached to facilitation, who feels devalued."],
+/*52*/["Coach a new trainer after a difficult session","a learning manager","coach a new trainer after a facilitated session that went badly","The trainer doubts themselves. The manager must debrief without overwhelming them and build a progression plan.","New trainer, discouraged, who thinks they are not cut out for the job."],
+/*53*/["Arbitrate a disagreement between two designers","a learning manager","arbitrate a disagreement between two instructional designers over the approach of a learning path","Each defends their own vision. The manager must listen, refocus on the learner objective and decide.","Instructional designer, convinced of their method, who takes criticism personally."],
+/*54*/["Demotivated learner disrupting the session","a trainer","handle a demotivated learner who is disrupting the training session","The learner was sent by their manager. The trainer must regain their engagement without losing the group.","Closed-off learner, who blurts out that they asked for nothing and see no point."],
+/*55*/["Scope the need of a sponsoring manager","a corporate account manager","capture the need of a manager who wants a training without knowing exactly what for","The manager wants \"something on communication\". The account manager must dig into the real problem.","Sponsoring manager, vague, in a hurry, who wants a quick answer."],
+/*56*/["Learner unhappy with their training","a training coordinator","respond to a learner unhappy with the training they have just completed","The learner finds the training too theoretical. The coordinator must listen, understand and propose a next step.","Disappointed learner, who feels they wasted their time."],
+/*57*/["Remind traceability obligations","a training quality manager","remind a trainer of their traceability obligations on attendance sheets and assessments","Records are missing ahead of an audit. The manager must restate the rules and obtain quick regularization.","Freelance trainer, who finds these administrative obligations excessive."],
+/*58*/["Personal data deletion request","a training coordinator","respond to a learner who asks for their personal data to be deleted","The coordinator must apply the data protection procedure and explain what can be deleted or kept.","Learner aware of their rights, who demands a precise answer and timelines."],
+/*59*/["Defend the training budget before leadership","a head of learning","present to leadership the results of a training program and defend its budget","Leadership doubts the return on investment. The head of learning must present results and argue the case.","Chief financial officer, skeptical, who asks for figures and business impact."],
+/*60*/["Convince a manager to release their team","a training coordinator","convince a manager to release their employees to attend a training","The manager cites workload. The coordinator must argue the value and propose a schedule.","Overloaded manager, who sees training as a waste of time."]
+];
+var PHRASES_EN = [
+["Thanks for taking the time. I wanted to talk to you about your lateness over the past few weeks, because it's starting to weigh on the team.","What's going on on your side for this to happen so often?","Here's what we agree on: from Monday you arrive by 9 a.m., and we check in again in two weeks. Does that work for you?"],
+["I wanted to tell you directly about a change in the organization, and I'll tell you right away what I know and what I don't know yet.","I understand this raises questions. What worries you most about this change?","I'll come back to you Thursday with the answers I'm missing, and everyone will have a one-to-one by Friday."],
+["I have an important assignment to entrust to you, because I think you can handle it.","What would you need to feel comfortable on this topic?","You own the content. We do a progress check on Wednesday, and you come to me as soon as you get stuck."],
+["I understand your frustration: this delay shouldn't have happened, and I want to explain what went wrong.","To handle your priority, what is most critical for you in this deliverable?","Here's the plan: first part delivered Friday, the rest Tuesday, and I'll call you every morning to keep you updated."],
+["To really understand your need, could you walk me through the situation that led you to contact us?","If I summarize, you mainly want to save time on your processes. Is that right?","I suggest we formalize all this in a one-page note, and validate it together on Thursday."],
+["I understand the value of this request, and I see why it matters to you.","It falls outside the agreed scope, so I can't include it without an impact on the schedule or budget.","I suggest two options: add it through an amendment, or handle it in a phase 2. Which works better for you?"],
+["I wanted to flag something that caught my attention, without drawing any conclusion.","Here are the facts I noticed: the date, the supplier concerned and the link I observed.","What should I do from here, and who needs to be informed?"],
+["I wanted to talk to you about the document that went to the wrong address yesterday, not to blame you.","How did it go on your side? What made you pick that recipient?","Going forward, we always check the recipient and use the protected shared folder. Want me to show you?"],
+["I wanted to catch up with you on yesterday's presentation. First, what worked well: your section on the numbers was clear.","What seemed less effective to me was the recommendations part. How did you experience it?","For the next one, let's meet Tuesday to rehearse together, and you propose a shorter structure."],
+["Thanks for meeting me. I have an urgent project and I'd need your help on a key resource.","I know your teams are stretched. What are your constraints for the next three weeks?","What if I borrowed them two days a week for a month, with a mid-point check-in?"],
+["I'd like to talk to you about the situation between the two of you, because it affects the unit.","I'd like to hear your version first, without interrupting. What happened, in your view?","Here's what we put in place: a coordination check-in every morning for two weeks, and we meet again on Friday."],
+["I'm bringing you together to announce a schedule change on weekends, and I'll explain why.","I understand this affects you. What is the hardest part of this organization for you?","The principle stays, but I can look at weekend swaps between you, to be sent to me by Thursday."],
+["I wanted to check in on you since you arrived. How is it going, really?","What feels the hardest right now?","We'll set up a buddy on three shifts next week, and check in again on Friday."],
+["I understand your concern, and thank you for talking to me about it directly.","Here is what we did this week for your relative, and what we will keep monitoring.","I suggest a check-in every Thursday with the team, and you can ask for the unit manager at any time."],
+["I understand the wait is long, and I'm sorry for the inconvenience.","Here's where you stand: urgent cases go first, and you're after two other people.","I'll let you know as soon as there's news, and I'll come back to check on you in twenty minutes."],
+["I have to tell you that your procedure has been postponed, and I want to explain why.","An emergency case took the room. I understand this is hard after you've prepared.","Proposed new date: Thursday morning. If that doesn't suit you, I'll look for an alternative with you."],
+["I need to report a procedure deviation I've just noticed on batch 4.","Here are the facts: the date, the time, the step concerned and what was not followed.","I've isolated the batch pending your decision. What action do you recommend?"],
+["I wanted to talk to you about what you said earlier in the hallway, because it makes me a bit uncomfortable.","We were in a place where others could hear. Are you aware of that?","We commit to discussing patients only in the handover room. Does that work for you?"],
+["I'm handing over the essentials on room 12: pain to monitor and treatment changed at 6 p.m.","Three points of attention for the night: vitals every two hours, hydration, call the doctor if there's a fever.","Do you have any questions? Can you repeat back the points to monitor?"],
+["I wanted to go over the care we did earlier. How did you experience it?","There's one gesture to redo: the position of the hand. I'll show you, then you do it again in front of me.","You've progressed well on the rest. Shall we redo the gesture together tomorrow morning?"],
+["I have a change to announce about your station, and I prefer to explain it in person.","I know you're attached to this station. What worries you about this change?","We test it for two weeks, with a check-in at the midpoint to adjust."],
+["I'm bringing you both together because shift handovers are a problem, and I want us to find a solution together.","Each of you, tell me what is left unfinished at the end of your shift, with precise examples.","We define a common end-of-shift checklist, validated by both of you by Friday."],
+["I wanted to talk about Monday's quality incident, not to find someone to blame, but so we can learn.","What do you think led to this defect?","Here's what we change starting tomorrow, and thank you for how you handled the recovery."],
+["Thank you for your alert. We acknowledge that the batch is non-conforming.","Here is our plan: root-cause analysis within 48 hours and batch replacement within five days.","I'll call you back Thursday with the analysis report. Does that work for you?"],
+["I understand the urgency: your machine is down and every hour counts.","To intervene quickly, can you describe what happened and the error message displayed?","A technician will be at your site tomorrow at 8 a.m., and I'll keep you informed of his arrival."],
+["I'm contacting you to warn you of a delivery delay before it affects you.","What is the deadline on the production side so that you don't get blocked?","I suggest a partial delivery Tuesday and the balance Thursday, with daily follow-up."],
+["I see you're working without your protective gear. I need to talk to you about it right now.","What bothers you about the equipment?","I understand, we'll look at an alternative, but until then you wear it. That's non-negotiable."],
+["I wanted us to go back together over what happened earlier, so it doesn't happen to anyone else.","Tell me the scene from the beginning, as you lived it.","What do we change to prevent this from happening again? I'll note your suggestions."],
+["Here are the key points for the end of shift: line 2 is running at reduced pace and machine B needs watching.","The only urgent item: the setting to check every hour. Nothing special on the safety side.","Can you tell me again the two points you need to watch?"],
+["Thanks for seeing me. I'm bringing you figures on a breakdown that comes back every week.","It costs about two hours of production per week, which is [x] parts.","Could you fit it into your schedule this week? I'll bring you the records."],
+["I wanted to talk to you about how you greet customers, because I've received some feedback.","Here are two precise examples I observed. How do you see them?","Let's set a simple goal: greet every customer within ten seconds. We check in on Friday."],
+["I'm bringing you together to present the schedules during the sales, and I'll explain the reasons.","Who has particular constraints? Tell me today so I can take them into account.","I can't satisfy everyone, but here is what I can adjust."],
+["I see you hesitate to approach customers. What is holding you back?","Let's try together: I play the customer, and you approach me with a simple sentence.","Today, your goal is three customers approached. We'll review at 4 p.m."],
+["I understand you'd like to be refunded, and thank you for your loyalty.","The refund deadline has passed, so I can't refund you, but I can offer you a store credit.","Would you like the credit or an exchange for another item?"],
+["What matters most to you in this product: the price, the lifespan or the size?","If I understand correctly, you want something simple and sturdy. Let me show you two models.","This one matches your criteria. Would you like me to gift-wrap it?"],
+["I understand it's annoying, I'm sorry for the wait.","I'm opening a register right now. Come this way, I'll take care of you.","Thank you for your patience. Have a good day."],
+["Hello, can I help you? I just wanted to make sure everything was going well.","If you like, I can walk you to the checkout with what you have in hand.","Thank you. I'm simply letting my manager know, as the procedure requires."],
+["I wanted to check in with you about this week's cash discrepancy, without accusing you of anything.","Can you describe how your register closing goes?","We redo the procedure together tonight, and I'll count the register with you until Friday."],
+["Good morning everyone, three priorities today: the promo operation, aisle A stock and the checkout.","Who has blocking points? I'll take two minutes to deal with them.","We meet again at noon for a quick check-in. Have a great day!"],
+["I'm contacting you about a supply shortage that has been recurring for three weeks.","It costs us about [x] sales per week on this product.","Can you tell me who can unblock the situation and within what timeframe?"],
+["I wanted to review your results for the quarter, and understand how you're experiencing the situation.","What, in your view, explains the gap with the target?","Here's what we put in place: two prospect meetings a week and a check-in every Friday."],
+["I've noticed you prefer working with portfolio clients. What holds you back on prospecting?","What if we practiced together with a prospect call, in a role-play?","Your goal for the week: five calls, and we debrief together on Friday."],
+["I'm announcing next year's targets, and I'll explain the context.","I understand it looks ambitious. What seems hardest to you?","We adjust the action plan together, and I'll bring your comments to the committee next week."],
+["I have to tell you that the bank can't grant this loan for now, and I want to explain why.","I understand your disappointment. Let's see what we can do differently.","I suggest reviewing the application in three months with a larger down payment. Does that work for you?"],
+["I understand your concern about this drop, and I'd rather talk to you about it right away.","Let's recall your horizon: you invested for ten years, and this kind of variation is normal.","I suggest keeping the current strategy and reviewing it every quarter."],
+["I understand these fees surprise you, let me check your file.","Here is where these fees come from, and what you can do to avoid them.","I'll make a goodwill gesture on the last charge and confirm it to you in writing."],
+["I need some information to update your file, as the law requires of all banks.","I understand this may seem intrusive. This data stays confidential.","Can you bring me these three documents by Friday? I'll write to you to list them."],
+["I wanted to talk to you about a transaction that seems unusual on this client's account.","Here is what I noticed: the amount, the frequency and the recipient.","According to the procedure, I report it to compliance today. Do you agree?"],
+["I'm presenting the Company X file: a request for [x] euros to finance an expansion.","The risks identified are debt and dependence on one customer, but here are the guarantees offered.","I recommend approval with two conditions precedent. I'm ready to answer your questions."],
+["I'm handing you my portfolio before I leave. Here are the five clients to handle first.","For this client, be careful: they prefer being contacted in the morning and have a pending request.","All the details are in the file. Do you want a ten-minute review of the sensitive cases?"],
+["I wanted to tell you directly about a change in the academy that affects your teaching hours.","I know teaching matters a lot to you. How are you taking this news?","I suggest you take on mentoring new trainers, and we talk again in two weeks."],
+["I wanted to take a moment with you after your session. How did you experience it?","What worked well in your view, and what would you do differently?","We'll sit in on a colleague's session next week together, and you tell me what you take away."],
+["I've brought you together to clarify your two approaches to this learning path.","Each of you, present in two minutes the learning you're aiming for the learner.","We test both versions with a small group and decide based on the results."],
+["I see it's not easy for you to be here. What would help you?","What would you like to take away from this day for your work?","I suggest we start from a concrete case you encounter, to make this session useful."],
+["To really understand your need, what situation led you to request this training?","What would you like to see change concretely in your teams in three months?","If I summarize, the goal is [x]. I'll send you a proposal within two days."],
+["Thank you for telling me what you think, it's very useful.","What seemed too theoretical, and what would you have liked to work on?","I propose a two-hour hands-on workshop next month, and I'll register you as a priority."],
+["I wanted to remind you of the documents to provide before the audit: attendance sheets and assessments.","What makes this administrative task complicated for you?","Can you send me the missing documents before Thursday? I'll offer you a simpler template."],
+["I confirm receipt of your request to delete your personal data.","Here is what we delete, and what the law requires us to keep, and for how long.","You will receive written confirmation within a month."],
+["I'm presenting the program's results: [x]% completion and [y]% fewer errors.","The return on investment rests on three points: productivity, retention and compliance.","I'm requesting a budget of [x] to extend the program to two new departments."],
+["I know your workload is high, and I'm not here to take your time for nothing.","This training lets your teams save about [x] hours per week afterwards.","I propose two half-days, outside the peak period. Which dates work for you?"]
+];
+
+var SECT_EN = { "Services": "Services", "Santé": "Healthcare", "Industrie": "Manufacturing", "Retail": "Retail", "Banque & finance": "Banking & finance", "Formation": "Learning & training" };
+var TYPE_EN = { "Management": "Management", "Relation client": "Customer relations", "Conformité & sécurité": "Compliance & safety", "Communication interne": "Internal communication" };
+var SKILLS_EN = {
+  "Management": "Management posture, active listening, clear framework",
+  "Relation client": "Listening, empathy, reformulation, handling disagreement",
+  "Conformité & sécurité": "Following procedures, factual tone, caring firmness",
+  "Communication interne": "Message clarity, argumentation, adapting to the other person"
+};
+var STEM_EN = "Generate a spoken role-play scenario where ";
+var UI = {
+  fr: {
+    internal: "Usage interne 360Learning uniquement. Ne pas partager ni transmettre aux clients.",
+    crumb: "Cas d'usage", search: "Rechercher", comp: "Entreprise cliente",
+    compTip: "Le nom saisi ici est inséré dans chaque prompt pour que l'avatar parle du contexte de votre client.",
+    h1: "Former vos collaborateurs par la pratique",
+    hero: "60 cas d'usage à jouer face à un avatar. Saisissez l'entreprise cliente en haut, ouvrez un cas, lisez les phrases clefs, puis copiez le prompt dans RolePlay.",
+    all: "Tous les secteurs", seeAll: "Tout voir", cases: "cas", sector: "Secteur", useCases: "Cas d'usage",
+    empty: "Aucun cas ne correspond. Changez de secteur ou effacez la recherche.",
+    drawer: "Fiche du cas", close: "Fermer", avatar: "Avatar", role: "Rôle de l'apprenant", goal: "Objectif", skill: "Compétence",
+    promptH: "Prompt à donner à RolePlay",
+    promptP: "Les champs de RolePlay se remplissent à partir de cette phrase. Le nom de l'entreprise cliente (champ en haut de page) y est inséré pour contextualiser la scène.",
+    phrasesH: "Suggestion de phrases clefs", phrasesP: "Dans l'ordre de la scène. Vous jouez l'apprenant, l'avatar répond.",
+    labels: ["Ouvrir", "Explorer", "Conclure"],
+    copy: "Copier le prompt", copied: "Copié", failed: "Texte sélectionné, faites Ctrl/Cmd+C", ph: "[entreprise]", title: "Cas d'usage RolePlay"
+  },
+  en: {
+    internal: "360Learning internal use only. Do not share or forward to customers.",
+    crumb: "Use cases", search: "Search", comp: "Client company",
+    compTip: "The name entered here is inserted into every prompt so the avatar speaks to your client's context.",
+    h1: "Train your employees through practice",
+    hero: "60 use cases to play against an avatar. Enter the client company above, open a case, read the key phrases, then copy the prompt into RolePlay.",
+    all: "All sectors", seeAll: "See all", cases: "cases", sector: "Sector", useCases: "Use cases",
+    empty: "No case matches. Change the sector or clear the search.",
+    drawer: "Case details", close: "Close", avatar: "Avatar", role: "Learner role", goal: "Objective", skill: "Skill",
+    promptH: "Prompt to give to RolePlay",
+    promptP: "RolePlay's fields are filled in from this sentence. The client company name (field at the top of the page) is inserted to give the scene its context.",
+    phrasesH: "Suggested key phrases", phrasesP: "In scene order. You play the learner, the avatar answers.",
+    labels: ["Open", "Explore", "Close"],
+    copy: "Copy prompt", copied: "Copied", failed: "Text selected, press Ctrl/Cmd+C", ph: "[company]", title: "RolePlay use cases"
+  }
+};
+var lang = "fr";
+try { var sl = localStorage.getItem("rp-cas-usage-lang"); if (sl === "en" || sl === "fr") lang = sl; } catch (err) {}
+function U(k) { return UI[lang][k]; }
+function dInd(x) { return lang === "en" ? SECT_EN[x] : x; }
+function dType(x) { return lang === "en" ? TYPE_EN[x] : x; }
+function capFirst(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
+var EXAMPLES = [];
+function buildExamples() {
+  EXAMPLES = ROWS.map(function (r, i) {
+    var en = lang === "en", x = ROWS_EN[i];
+    var learner = en ? x[1] : r[3], situ = en ? x[2] : r[4];
+    return {
+      id: i + 1, ind: SECT[r[0]], type: r[1], dur: "3 min",
+      title: en ? x[0] : r[2],
+      role: capFirst(learner.replace(/^(un|une|a|an) /, "")),
+      goal: capFirst(situ),
+      scenario: en ? x[3] : r[5], avatar: en ? x[4] : r[6],
+      skill: en ? SKILLS_EN[r[1]] : SKILLS[r[1]],
+      prompt: en ? STEM_EN + learner + " at {entreprise} must " + situ + "." : STEM + learner + " de {entreprise} doit " + situ + ".",
+      phrases: en ? PHRASES_EN[i] : PHRASES[i]
+    };
+  });
+}
+buildExamples();
 
 
 var INDUSTRIES = ["Services", "Santé", "Industrie", "Retail", "Banque & finance", "Formation"];
 var ABBR = { "Services": "Sv", "Santé": "Sa", "Industrie": "In", "Retail": "Re", "Banque & finance": "Bf", "Formation": "Fo" };
 var TYPES = ["Management", "Relation client", "Conformité & sécurité", "Communication interne"];
-var LABELS = ["Ouvrir", "Explorer", "Conclure"];
 var state = { ind: "Tous", type: "Tous", q: "", entreprise: "", open: 0 };
 var lastFocus = null;
 
@@ -589,11 +791,11 @@ function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").
 function byId(id) { return EXAMPLES.filter(function (e) { return e.id === id; })[0]; }
 function tIdx(e) { return TYPES.indexOf(e.type); }
 
-function plainPrompt(tpl) { return tpl.replace(/\{entreprise\}/g, state.entreprise.trim() || "[entreprise]"); }
+function plainPrompt(tpl) { return tpl.replace(/\{entreprise\}/g, state.entreprise.trim() || U("ph")); }
 function htmlPrompt(tpl) {
   return esc(tpl).replace(/\{entreprise\}/g, function () {
     var v = state.entreprise.trim();
-    return v ? '<span class="f">' + esc(v) + "</span>" : '<span class="v">[entreprise]</span>';
+    return v ? '<span class="f">' + esc(v) + "</span>" : '<span class="v">' + esc(U("ph")) + "</span>";
   });
 }
 
@@ -602,7 +804,7 @@ function matches(e) {
   if (state.type !== "Tous" && e.type !== state.type) return false;
   var q = state.q.trim().toLowerCase();
   if (q) {
-    var hay = (e.title + " " + e.scenario + " " + e.avatar + " " + e.ind + " " + e.type + " " + e.phrases.join(" ")).toLowerCase();
+    var hay = (e.title + " " + e.scenario + " " + e.avatar + " " + dInd(e.ind) + " " + dType(e.type) + " " + e.phrases.join(" ")).toLowerCase();
     if (hay.indexOf(q) === -1) return false;
   }
   return true;
@@ -612,12 +814,12 @@ var QUOTE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke=
 
 function renderFilters() {
   var pills = ["Tous"].concat(INDUSTRIES).map(function (n) {
-    return '<button type="button" class="pill" data-ind="' + esc(n) + '" aria-pressed="' + (state.ind === n) + '">' + (n === "Tous" ? "Tous les secteurs" : esc(n)) + "</button>";
+    return '<button type="button" class="pill" data-ind="' + esc(n) + '" aria-pressed="' + (state.ind === n) + '">' + (n === "Tous" ? esc(U("all")) : esc(dInd(n))) + "</button>";
   }).join("");
   $("pills").innerHTML = pills;
   $("tiles").innerHTML = TYPES.map(function (n, i) {
     var c = EXAMPLES.filter(function (e) { return e.type === n; }).length;
-    return '<button type="button" class="tile" data-piece data-type="' + esc(n) + '" aria-pressed="' + (state.type === n) + '"><span class="lab"><b>' + esc(n) + "</b><small>" + c + " cas</small></span></button>";
+    return '<button type="button" class="tile" data-piece data-type="' + esc(n) + '" aria-pressed="' + (state.type === n) + '"><span class="lab"><b>' + esc(dType(n)) + "</b><small>" + c + " " + U("cases") + "</small></span></button>";
   }).join("");
 }
 
@@ -626,20 +828,20 @@ function cardHtml(e) {
   var n = tIdx(e);
   return '<button type="button" class="card t' + n + '" data-id="' + e.id + '">' +
     '<span class="card-top" style="background-size:' + (200 + (e.id * 37) % 140) + '%;background-position:' + ((e.id * 53) % 101) + '% ' + ((e.id * 29) % 101) + '%"></span>' +
-    '<span class="card-body"><h3>' + esc(e.title) + '</h3><span class="chips"><span class="chip">' + esc(e.dur) + '</span><span class="chip tc">' + esc(e.type) + "</span></span></span>" +
+    '<span class="card-body"><h3>' + esc(e.title) + '</h3><span class="chips"><span class="chip">' + esc(e.dur) + '</span><span class="chip tc">' + esc(dType(e.type)) + "</span></span></span>" +
     '<span class="card-foot"><span class="av">' + esc(short.charAt(0).toUpperCase()) + '</span><span class="av-name">' + esc(short) + '</span><span class="q">' + QUOTE + "3</span></span>" +
     "</button>";
 }
 
 function renderSections() {
   var list = EXAMPLES.filter(matches);
-  if (!list.length) { $("sections").innerHTML = '<div class="empty">Aucun cas ne correspond. Changez de secteur ou effacez la recherche.</div>'; return; }
+  if (!list.length) { $("sections").innerHTML = '<div class="empty">' + esc(U("empty")) + "</div>"; return; }
   var wide = state.ind === "Tous";
   $("sections").innerHTML = INDUSTRIES.map(function (ind) {
     var items = list.filter(function (e) { return e.ind === ind; });
     if (!items.length) return "";
-    return '<section><div class="sec-head"><h2>' + esc(ind) + '</h2><span class="count">' + items.length + "</span>" +
-      '<button type="button" class="seeall" data-see="' + (wide ? esc(ind) : "Tous") + '">' + (wide ? "Tout voir" : "Tous les secteurs") + "</button></div>" +
+    return '<section><div class="sec-head"><h2>' + esc(dInd(ind)) + '</h2><span class="count">' + items.length + "</span>" +
+      '<button type="button" class="seeall" data-see="' + (wide ? esc(ind) : "Tous") + '">' + (wide ? U("seeAll") : U("all")) + "</button></div>" +
       '<div class="' + (wide ? "row-scroll" : "row-grid") + '">' + items.map(cardHtml).join("") + "</div></section>";
   }).join("");
 }
@@ -675,15 +877,15 @@ window.addEventListener("load", layoutMosaic);
 try { if (document.fonts && document.fonts.ready) document.fonts.ready.then(layoutMosaic); } catch (err) {}
 
 function drawerHtml(e) {
-  return '<div class="drawer-head t' + tIdx(e) + '"><span class="chips"><span class="chip">' + esc(e.ind) + '</span><span class="chip">' + esc(e.dur) + '</span><span class="chip tc">' + esc(e.type) + "</span></span>" +
-    '<button type="button" class="close" id="close" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>' +
+  return '<div class="drawer-head t' + tIdx(e) + '"><span class="chips"><span class="chip">' + esc(dInd(e.ind)) + '</span><span class="chip">' + esc(e.dur) + '</span><span class="chip tc">' + esc(dType(e.type)) + "</span></span>" +
+    '<button type="button" class="close" id="close" aria-label="' + esc(U("close")) + '"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>' +
     '<div class="drawer-body"><h1>' + esc(e.title) + "</h1>" +
     '<p class="scenario">' + esc(e.scenario) + "</p>" +
-    '<dl class="facts"><dt>Avatar</dt><dd>' + esc(e.avatar) + "</dd><dt>Rôle de l'apprenant</dt><dd>" + esc(e.role) + "</dd><dt>Objectif</dt><dd>" + esc(e.goal) + "</dd><dt>Compétence</dt><dd>" + esc(e.skill) + "</dd></dl>" +
-    '<div class="dsec"><h2>Prompt à donner à RolePlay</h2><p>Les champs de RolePlay se remplissent à partir de cette phrase.</p><div class="prompt-box"><p class="prompt" id="prompt-text">' + htmlPrompt(e.prompt) + "</p></div></div>" +
-    '<div class="dsec"><h2>Suggestion de phrases clefs</h2><p>Dans l\'ordre de la scène. Vous jouez l\'apprenant, l\'avatar répond.</p><ol class="lines">' +
-    e.phrases.map(function (s, k) { return "<li><b>" + LABELS[k] + "</b>" + esc(s) + "</li>"; }).join("") + "</ol></div></div>" +
-    '<div class="drawer-foot"><button type="button" class="copy" id="copy">Copier le prompt</button></div>';
+    '<dl class="facts"><dt>' + esc(U("avatar")) + "</dt><dd>" + esc(e.avatar) + "</dd><dt>" + esc(U("role")) + "</dt><dd>" + esc(e.role) + "</dd><dt>" + esc(U("goal")) + "</dt><dd>" + esc(e.goal) + "</dd><dt>" + esc(U("skill")) + "</dt><dd>" + esc(e.skill) + "</dd></dl>" +
+    '<div class="dsec"><h2>' + esc(U("promptH")) + '</h2><p>' + esc(U("promptP")) + '</p><div class="prompt-box"><p class="prompt" id="prompt-text">' + htmlPrompt(e.prompt) + "</p></div></div>" +
+    '<div class="dsec"><h2>' + esc(U("phrasesH")) + '</h2><p>' + esc(U("phrasesP")) + '</p><ol class="lines">' +
+    e.phrases.map(function (s, k) { return "<li><b>" + esc(U("labels")[k]) + "</b>" + esc(s) + "</li>"; }).join("") + "</ol></div></div>" +
+    '<div class="drawer-foot"><button type="button" class="copy" id="copy">' + esc(U("copy")) + "</button></div>";
 }
 
 function openCase(id) {
@@ -715,6 +917,7 @@ document.addEventListener("click", function (ev) {
   var t = ev.target.closest("button");
   if (ev.target === $("scrim")) { closeCase(); return; }
   if (!t) return;
+  if (t.hasAttribute("data-lang")) { setLang(t.getAttribute("data-lang")); return; }
   if (t.hasAttribute("data-ind")) { state.ind = state.ind === t.getAttribute("data-ind") && t.classList.contains("rail-btn") ? "Tous" : t.getAttribute("data-ind"); renderAll(); return; }
   if (t.hasAttribute("data-type")) { state.type = state.type === t.getAttribute("data-type") ? "Tous" : t.getAttribute("data-type"); renderAll(); return; }
   if (t.hasAttribute("data-see")) { state.ind = t.getAttribute("data-see"); renderAll(); window.scrollTo(0, 0); return; }
@@ -724,9 +927,9 @@ document.addEventListener("click", function (ev) {
   if (t.id === "copy") {
     var ex = byId(state.open);
     var text = plainPrompt(ex.prompt);
-    var label = "Copier le prompt";
-    var done = function () { t.textContent = "Copié"; t.classList.add("done"); setTimeout(function () { t.textContent = label; t.classList.remove("done"); }, 1800); };
-    var failed = function () { fallbackSelect($("prompt-text")); t.textContent = "Texte sélectionné, faites Ctrl/Cmd+C"; setTimeout(function () { t.textContent = label; }, 3000); };
+    var label = U("copy");
+    var done = function () { t.textContent = U("copied"); t.classList.add("done"); setTimeout(function () { t.textContent = label; t.classList.remove("done"); }, 1800); };
+    var failed = function () { fallbackSelect($("prompt-text")); t.textContent = U("failed"); setTimeout(function () { t.textContent = label; }, 3000); };
     if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, failed); } else { failed(); }
   }
 });
@@ -746,6 +949,30 @@ try {
   if (saved && saved.entreprise) { state.entreprise = saved.entreprise; $("v-entreprise").value = state.entreprise; }
 } catch (err) {}
 
+function applyLang() {
+  document.documentElement.setAttribute("lang", lang);
+  document.title = U("title");
+  $("t-internal").textContent = U("internal");
+  $("t-crumb").textContent = U("crumb");
+  $("t-search-sr").textContent = U("search"); $("q").placeholder = U("search");
+  $("t-comp-sr").textContent = U("comp"); $("v-entreprise").placeholder = U("comp");
+  $("company-box").title = U("compTip");
+  $("t-h1").textContent = U("h1"); $("t-hero").textContent = U("hero");
+  $("tiles").setAttribute("aria-label", U("useCases"));
+  $("pills").setAttribute("aria-label", U("sector"));
+  $("drawer").setAttribute("aria-label", U("drawer"));
+  var lb = document.querySelectorAll(".lang button");
+  for (var i = 0; i < lb.length; i++) lb[i].setAttribute("aria-pressed", String(lb[i].getAttribute("data-lang") === lang));
+}
+function setLang(l) {
+  if (l === lang) return;
+  lang = l;
+  try { localStorage.setItem("rp-cas-usage-lang", lang); } catch (err) {}
+  buildExamples(); applyLang(); renderAll();
+  if (state.open) { var e = byId(state.open); if (e) { $("drawer").innerHTML = drawerHtml(e); var c = $("close"); if (c) c.focus(); } }
+}
+
+applyLang();
 renderAll();
 
 try {
@@ -754,4 +981,5 @@ try {
 } catch (err) {}
 </script>
 
-</body></html>
+</body>
+</html>
